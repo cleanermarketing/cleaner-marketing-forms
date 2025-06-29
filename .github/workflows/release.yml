@@ -51,8 +51,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ steps.get_version.outputs.VERSION }}
-        body_path: RELEASE_NOTES.md
+        release_name: Version ${{ steps.get_version.outputs.VERSION }}
+        body: |
+          ## Changes in this release
+          
+          See [CHANGELOG.md](https://github.com/cleanermarketing/cleaner-marketing-forms/blob/main/CHANGELOG.md) for details.
+          
+          ## Installation
+          1. Download the attached zip file
+          2. Upload via WordPress Admin → Plugins → Add New → Upload
+          3. Activate the plugin
         draft: false
         prerelease: false
     

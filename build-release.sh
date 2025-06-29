@@ -34,7 +34,6 @@ rsync -av --progress . "$RELEASE_DIR" \
     --exclude="tests" \
     --exclude="*.sh" \
     --exclude="*.md" \
-    --exclude="composer.json" \
     --exclude="composer.lock" \
     --exclude="package.json" \
     --exclude="package-lock.json" \

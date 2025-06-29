@@ -1,0 +1,403 @@
+/**
+ * Modern Form Styling for Dry Cleaning Forms
+ * Provides enhanced, modern styling for form fields in popups
+ */
+
+/* Base form styling */
+.dcf-popup .dcf-form,
+.dcf-popup-form {
+    width: 100%;
+}
+
+/* Modern field wrapper */
+.dcf-popup .dcf-field,
+.dcf-popup-field {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Modern label styling */
+.dcf-popup .dcf-field-label,
+.dcf-popup-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: inherit;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Base input styling */
+.dcf-popup input[type="text"],
+.dcf-popup input[type="email"],
+.dcf-popup input[type="tel"],
+.dcf-popup input[type="number"],
+.dcf-popup input[type="password"],
+.dcf-popup input[type="url"],
+.dcf-popup textarea,
+.dcf-popup select {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #2c3e50;
+    background-color: #ffffff;
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+/* Focus states */
+.dcf-popup input[type="text"]:focus,
+.dcf-popup input[type="email"]:focus,
+.dcf-popup input[type="tel"]:focus,
+.dcf-popup input[type="number"]:focus,
+.dcf-popup input[type="password"]:focus,
+.dcf-popup input[type="url"]:focus,
+.dcf-popup textarea:focus,
+.dcf-popup select:focus {
+    outline: none;
+    border-color: #3498db;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+}
+
+/* Hover states */
+.dcf-popup input[type="text"]:hover,
+.dcf-popup input[type="email"]:hover,
+.dcf-popup input[type="tel"]:hover,
+.dcf-popup input[type="number"]:hover,
+.dcf-popup input[type="password"]:hover,
+.dcf-popup input[type="url"]:hover,
+.dcf-popup textarea:hover,
+.dcf-popup select:hover {
+    border-color: #bdc3c7;
+}
+
+/* Placeholder styling */
+.dcf-popup input::placeholder,
+.dcf-popup textarea::placeholder {
+    color: #95a5a6;
+    opacity: 1;
+}
+
+/* Textarea specific */
+.dcf-popup textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Select dropdown styling */
+.dcf-popup select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232c3e50' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 45px;
+    cursor: pointer;
+}
+
+/* Radio and Checkbox styling */
+.dcf-popup input[type="radio"],
+.dcf-popup input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+    top: -2px;
+}
+
+.dcf-popup .dcf-radio-option,
+.dcf-popup .dcf-checkbox-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.dcf-popup .dcf-radio-option:hover,
+.dcf-popup .dcf-checkbox-option:hover {
+    background: #e9ecef;
+}
+
+.dcf-popup .dcf-radio-option label,
+.dcf-popup .dcf-checkbox-option label {
+    cursor: pointer;
+    margin: 0;
+    font-weight: normal;
+    text-transform: none;
+    opacity: 1;
+}
+
+/* Submit button modern styling */
+.dcf-popup button[type="submit"],
+.dcf-popup .dcf-submit-button:not(.dcf-custom-submit),
+.dcf-popup-button.dcf-popup-submit {
+    display: inline-block;
+    width: 100%;
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+}
+
+/* Custom submit button in popup - preserve inline styles */
+.dcf-popup .dcf-submit-button.dcf-custom-submit {
+    /* Preserve the inline styles */
+    background: initial;
+    /* Keep other styling consistent */
+    display: inline-block;
+    width: 100%;
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    opacity: 1;
+}
+
+/* Submit button hover effect */
+.dcf-popup button[type="submit"]:hover,
+.dcf-popup .dcf-submit-button:not(.dcf-custom-submit):hover,
+.dcf-popup-button.dcf-popup-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Custom submit button hover - just opacity change */
+.dcf-popup .dcf-submit-button.dcf-custom-submit:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+    /* Use a generic shadow that works with any color */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Submit button active effect */
+.dcf-popup button[type="submit"]:active,
+.dcf-popup .dcf-submit-button:not(.dcf-custom-submit):active,
+.dcf-popup-button.dcf-popup-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Custom submit button active effect */
+.dcf-popup .dcf-submit-button.dcf-custom-submit:active {
+    transform: translateY(0);
+    opacity: 0.8;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Submit button ripple effect */
+.dcf-popup button[type="submit"]::after,
+.dcf-popup .dcf-submit-button::after,
+.dcf-popup-button.dcf-popup-submit::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.dcf-popup button[type="submit"]:active::after,
+.dcf-popup .dcf-submit-button:active::after,
+.dcf-popup-button.dcf-popup-submit:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Error states */
+.dcf-popup .dcf-field.dcf-error input,
+.dcf-popup .dcf-field.dcf-error textarea,
+.dcf-popup .dcf-field.dcf-error select {
+    border-color: #e74c3c;
+}
+
+.dcf-popup .dcf-field.dcf-error input:focus,
+.dcf-popup .dcf-field.dcf-error textarea:focus,
+.dcf-popup .dcf-field.dcf-error select:focus {
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+}
+
+.dcf-popup .dcf-error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Success states */
+.dcf-popup .dcf-field.dcf-success input,
+.dcf-popup .dcf-field.dcf-success textarea,
+.dcf-popup .dcf-field.dcf-success select {
+    border-color: #27ae60;
+}
+
+.dcf-popup .dcf-field.dcf-success input:focus,
+.dcf-popup .dcf-field.dcf-success textarea:focus,
+.dcf-popup .dcf-field.dcf-success select:focus {
+    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.1);
+}
+
+/* Loading state */
+.dcf-popup .dcf-form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.dcf-popup .dcf-form-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: dcf-spin 1s linear infinite;
+}
+
+@keyframes dcf-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Floating label effect */
+.dcf-popup .dcf-field.dcf-floating-label {
+    position: relative;
+    margin-top: 20px;
+}
+
+.dcf-popup .dcf-field.dcf-floating-label label {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-size: 16px;
+    color: #95a5a6;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    padding: 0 5px;
+    text-transform: none;
+    font-weight: normal;
+    opacity: 1;
+}
+
+.dcf-popup .dcf-field.dcf-floating-label input:focus + label,
+.dcf-popup .dcf-field.dcf-floating-label input:not(:placeholder-shown) + label,
+.dcf-popup .dcf-field.dcf-floating-label textarea:focus + label,
+.dcf-popup .dcf-field.dcf-floating-label textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    color: #3498db;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Icon support */
+.dcf-popup .dcf-field.dcf-has-icon {
+    position: relative;
+}
+
+.dcf-popup .dcf-field.dcf-has-icon input {
+    padding-left: 50px;
+}
+
+.dcf-popup .dcf-field-icon {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: #95a5a6;
+    font-size: 18px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .dcf-popup input[type="text"],
+    .dcf-popup input[type="email"],
+    .dcf-popup input[type="tel"],
+    .dcf-popup input[type="number"],
+    .dcf-popup input[type="password"],
+    .dcf-popup input[type="url"],
+    .dcf-popup textarea,
+    .dcf-popup select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 14px 16px;
+    }
+    
+    .dcf-popup button[type="submit"],
+    .dcf-popup .dcf-submit-button,
+    .dcf-popup-button.dcf-popup-submit {
+        padding: 16px 30px;
+        font-size: 16px;
+    }
+}
+
+/* Dark theme support */
+.dcf-popup.dcf-dark-theme input[type="text"],
+.dcf-popup.dcf-dark-theme input[type="email"],
+.dcf-popup.dcf-dark-theme input[type="tel"],
+.dcf-popup.dcf-dark-theme input[type="number"],
+.dcf-popup.dcf-dark-theme input[type="password"],
+.dcf-popup.dcf-dark-theme input[type="url"],
+.dcf-popup.dcf-dark-theme textarea,
+.dcf-popup.dcf-dark-theme select {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.dcf-popup.dcf-dark-theme input[type="text"]:focus,
+.dcf-popup.dcf-dark-theme input[type="email"]:focus,
+.dcf-popup.dcf-dark-theme input[type="tel"]:focus,
+.dcf-popup.dcf-dark-theme input[type="number"]:focus,
+.dcf-popup.dcf-dark-theme input[type="password"]:focus,
+.dcf-popup.dcf-dark-theme input[type="url"]:focus,
+.dcf-popup.dcf-dark-theme textarea:focus,
+.dcf-popup.dcf-dark-theme select:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.dcf-popup.dcf-dark-theme input::placeholder,
+.dcf-popup.dcf-dark-theme textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}

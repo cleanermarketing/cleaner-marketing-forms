@@ -1,0 +1,515 @@
+<?php
+/**
+ * Forms List View
+ *
+ * @package DryCleaningForms
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
+
+<div class="wrap">
+    <h1 class="wp-heading-inline"><?php _e('Forms', 'dry-cleaning-forms'); ?></h1>
+    <a href="<?php echo admin_url('admin.php?page=dcf-form-builder&action=new'); ?>" class="page-title-action">
+        <?php _e('Add New', 'dry-cleaning-forms'); ?>
+    </a>
+    
+    <hr class="wp-header-end">
+    
+    <?php if (empty($forms)): ?>
+        <div class="dcf-empty-state">
+            <div class="dcf-empty-state-icon">
+                <span class="dashicons dashicons-feedback"></span>
+            </div>
+            <h2><?php _e('No forms found', 'dry-cleaning-forms'); ?></h2>
+            <p><?php _e('Create your first form to start collecting customer information.', 'dry-cleaning-forms'); ?></p>
+            <a href="<?php echo admin_url('admin.php?page=dcf-form-builder&action=new'); ?>" class="button button-primary button-large">
+                <?php _e('Create Your First Form', 'dry-cleaning-forms'); ?>
+            </a>
+        </div>
+    <?php else: ?>
+        <div class="dcf-forms-grid">
+            <?php foreach ($forms as $form): ?>
+                <?php 
+                // form_config is already decoded by the Form Builder's get_forms() method
+                $form_config = $form->form_config;
+                $form_title = !empty($form_config['title']) ? $form_config['title'] : $form->form_name;
+                $field_count = !empty($form_config['fields']) ? count($form_config['fields']) : 0;
+                ?>
+                <div class="dcf-form-card">
+                    <div class="dcf-form-card-header">
+                        <h3>
+                            <?php echo esc_html($form_title); ?>
+                            <?php if ($form->id !== 'default_signup'): ?>
+                                <?php
+                                // Check if this form is used by any popups
+                                global $wpdb;
+                                $popups_table = $wpdb->prefix . 'dcf_popups';
+                                $form_id_to_check = $form->id;
+                                
+                                // Query active popups that use this form
+                                // Check for both string and numeric form_id in JSON
+                                $popup_count = $wpdb->get_var($wpdb->prepare(
+                                    "SELECT COUNT(*) FROM $popups_table 
+                                     WHERE (popup_config LIKE %s OR popup_config LIKE %s) AND status = 'active'",
+                                    '%"form_id":"' . $form_id_to_check . '"%',  // String format
+                                    '%"form_id":' . $form_id_to_check . '%'     // Numeric format
+                                ));
+                                
+                                if ($popup_count > 0): ?>
+                                    <span class="dcf-form-badge dcf-popup-badge" style="background: #2271b1; color: white; margin-left: 10px;">
+                                        <?php echo sprintf(_n('%d Popup', '%d Popups', $popup_count, 'dry-cleaning-forms'), $popup_count); ?>
+                                    </span>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </h3>
+                        <div class="dcf-form-actions">
+                            <?php if ($form->id !== 'default_signup'): ?>
+                                <button type="button" class="button dcf-form-action" data-action="duplicate" data-form-id="<?php echo $form->id; ?>" title="<?php _e('Duplicate', 'dry-cleaning-forms'); ?>">
+                                    <span class="dashicons dashicons-admin-page"></span>
+                                </button>
+                                <a href="<?php echo admin_url('admin.php?page=dcf-form-builder&action=edit&form_id=' . $form->id); ?>" class="button dcf-form-action" title="<?php _e('Edit', 'dry-cleaning-forms'); ?>">
+                                    <span class="dashicons dashicons-edit"></span>
+                                </a>
+                                <button type="button" class="button dcf-form-action dcf-delete-form" data-form-id="<?php echo $form->id; ?>" title="<?php _e('Delete', 'dry-cleaning-forms'); ?>">
+                                    <span class="dashicons dashicons-trash"></span>
+                                </button>
+                            <?php else: ?>
+                                <span class="dcf-form-badge"><?php _e('System Form', 'dry-cleaning-forms'); ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <div class="dcf-form-card-body">
+                        <div class="dcf-form-meta">
+                            <span class="dcf-form-type">
+                                <span class="dashicons dashicons-forms"></span>
+                                <?php echo esc_html(ucwords(str_replace('_', ' ', $form->form_type))); ?>
+                            </span>
+                            <span class="dcf-field-count">
+                                <span class="dashicons dashicons-list-view"></span>
+                                <?php echo sprintf(_n('%d field', '%d fields', $field_count, 'dry-cleaning-forms'), $field_count); ?>
+                            </span>
+                        </div>
+                        
+                        <?php
+                        // Popup usage is now shown in the header as a badge
+                        ?>
+                        
+                        
+                        <div class="dcf-form-stats">
+                            <?php
+                            global $wpdb;
+                            $submissions_table = $wpdb->prefix . 'dcf_submissions';
+                            
+                            // For default signup form, count submissions with form_id = 'customer_signup'
+                            if ($form->id === 'default_signup') {
+                                $submission_count = $wpdb->get_var($wpdb->prepare(
+                                    "SELECT COUNT(*) FROM $submissions_table WHERE form_id = %s",
+                                    'customer_signup'
+                                ));
+                            } else {
+                                $submission_count = $wpdb->get_var($wpdb->prepare(
+                                    "SELECT COUNT(*) FROM $submissions_table WHERE form_id = %s",
+                                    $form->form_name
+                                ));
+                            }
+                            ?>
+                            <div class="dcf-stat">
+                                <span class="dcf-stat-number"><?php echo number_format($submission_count); ?></span>
+                                <span class="dcf-stat-label"><?php _e('Submissions', 'dry-cleaning-forms'); ?></span>
+                            </div>
+                        </div>
+                        
+                        <div class="dcf-form-shortcode">
+                            <label><?php _e('Shortcode:', 'dry-cleaning-forms'); ?></label>
+                            <?php if ($form->id === 'default_signup'): ?>
+                                <input type="text" value="[dcf_signup_form]" readonly onclick="this.select();" class="dcf-shortcode-input">
+                            <?php else: ?>
+                                <input type="text" value="[dcf_form id=&quot;<?php echo $form->id; ?>&quot;]" readonly onclick="this.select();" class="dcf-shortcode-input">
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <div class="dcf-form-card-footer">
+                        <span class="dcf-form-date">
+                            <?php echo sprintf(__('Created %s', 'dry-cleaning-forms'), date_i18n(get_option('date_format'), strtotime($form->created_at))); ?>
+                        </span>
+                        <?php if ($form->id !== 'default_signup'): ?>
+                            <a href="<?php echo admin_url('admin.php?page=dcf-form-builder&action=edit&form_id=' . $form->id); ?>" class="button button-primary">
+                                <?php _e('Edit Form', 'dry-cleaning-forms'); ?>
+                            </a>
+                        <?php else: ?>
+                            <span class="button button-disabled"><?php _e('Not Editable', 'dry-cleaning-forms'); ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<style>
+.dcf-no-forms {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.dcf-no-forms-content h2 {
+    color: #646970;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.dcf-no-forms-content p {
+    color: #646970;
+    font-size: 16px;
+    margin-bottom: 30px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dcf-forms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dcf-form-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease;
+}
+
+.dcf-form-card:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dcf-form-card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #c3c4c7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f6f7f7;
+}
+
+.dcf-form-card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.dcf-form-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.dcf-form-action {
+    padding: 5px 8px;
+    min-width: auto;
+    height: auto;
+}
+
+.dcf-form-action .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.dcf-form-card-body {
+    padding: 20px;
+}
+
+.dcf-form-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #646970;
+}
+
+.dcf-form-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dcf-form-stats {
+    margin-bottom: 20px;
+}
+
+.dcf-stat {
+    display: inline-block;
+    text-align: center;
+}
+
+.dcf-stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1d2327;
+    line-height: 1;
+}
+
+.dcf-stat-label {
+    display: block;
+    font-size: 12px;
+    color: #646970;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.dcf-form-shortcode {
+    margin-bottom: 0;
+}
+
+.dcf-form-shortcode label {
+    display: block;
+    font-size: 12px;
+    color: #646970;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.dcf-shortcode-input {
+    width: 100%;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 8px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    background: #f6f7f7;
+}
+
+.dcf-form-card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #c3c4c7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f6f7f7;
+}
+
+.dcf-form-date {
+    font-size: 12px;
+    color: #646970;
+}
+
+.dcf-form-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #0073aa;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.button-disabled {
+    background: #f6f7f7 !important;
+    color: #a7aaad !important;
+    border-color: #dcdcde !important;
+    cursor: default !important;
+    pointer-events: none;
+}
+
+.dcf-form-popups {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 13px;
+}
+
+.dcf-popup-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #646970;
+    margin-right: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.dcf-popup-indicator .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.dcf-popup-link {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 3px 8px;
+    background: #f0f0f1;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #2271b1;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.dcf-popup-link:hover {
+    background: #2271b1;
+    color: #fff;
+}
+
+.dcf-popup-status-indicator {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.dcf-popup-status-indicator.active {
+    background: #00a32a;
+    box-shadow: 0 0 0 2px rgba(0, 163, 42, 0.2);
+}
+
+@media (max-width: 768px) {
+    .dcf-forms-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-form-card-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .dcf-form-card-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .dcf-form-popups {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .dcf-popup-link {
+        display: block;
+        margin-right: 0;
+        text-align: center;
+    }
+}
+</style>
+
+<script>
+jQuery(document).ready(function($) {
+    // Handle form duplication
+    $('.dcf-form-action[data-action="duplicate"]').on('click', function() {
+        var formId = $(this).data('form-id');
+        var button = $(this);
+        var originalHtml = button.html();
+        
+        button.prop('disabled', true).html('<span class="dashicons dashicons-update-alt" style="animation: spin 1s linear infinite;"></span>');
+        
+        $.ajax({
+            url: dcf_admin.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'dcf_admin_action',
+                dcf_action: 'duplicate_form',
+                form_id: formId,
+                nonce: dcf_admin.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert(response.data.message || dcf_admin.messages.error);
+                }
+            },
+            error: function() {
+                alert(dcf_admin.messages.error);
+            },
+            complete: function() {
+                button.prop('disabled', false).html(originalHtml);
+            }
+        });
+    });
+    
+    // Handle form deletion
+    $('.dcf-delete-form').on('click', function() {
+        var formId = $(this).data('form-id');
+        
+        if (!confirm(dcf_admin.messages.confirm_delete)) {
+            return;
+        }
+        
+        var button = $(this);
+        var originalHtml = button.html();
+        
+        button.prop('disabled', true).html('<span class="dashicons dashicons-update-alt" style="animation: spin 1s linear infinite;"></span>');
+        
+        $.ajax({
+            url: dcf_admin.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'dcf_admin_action',
+                dcf_action: 'delete_form',
+                form_id: formId,
+                nonce: dcf_admin.nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    button.closest('.dcf-form-card').fadeOut(function() {
+                        $(this).remove();
+                        
+                        // Check if no forms left
+                        if ($('.dcf-form-card').length === 0) {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    alert(response.data.message || dcf_admin.messages.error);
+                }
+            },
+            error: function() {
+                alert(dcf_admin.messages.error);
+            },
+            complete: function() {
+                button.prop('disabled', false).html(originalHtml);
+            }
+        });
+    });
+    
+    // Copy shortcode to clipboard
+    $('.dcf-shortcode-input').on('click', function() {
+        this.select();
+        document.execCommand('copy');
+        
+        // Show feedback
+        var input = $(this);
+        var originalBg = input.css('background-color');
+        input.css('background-color', '#d1e7dd');
+        setTimeout(function() {
+            input.css('background-color', originalBg);
+        }, 1000);
+    });
+});
+
+// Add spin animation
+var style = document.createElement('style');
+style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+document.head.appendChild(style);
+</script> 

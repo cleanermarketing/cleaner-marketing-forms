@@ -1,0 +1,1385 @@
+/**
+ * DCF Popup Styles
+ * 
+ * Comprehensive styles for all popup types with mobile responsiveness
+ * 
+ * @package DryCleaningForms
+ * @since 1.0.0
+ */
+
+/* Base popup container */
+#dcf-popup-container {
+    position: relative;
+    z-index: 999999;
+}
+
+/* Common popup styles */
+.dcf-popup {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.dcf-popup *,
+.dcf-popup *::before,
+.dcf-popup *::after {
+    box-sizing: border-box;
+}
+
+/* Popup overlay */
+.dcf-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+/* Modal popup styles */
+.dcf-popup-modal {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative !important;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
+    animation: dcf-fadeIn 0.3s ease-out;
+    /* Ensure modal is not positioned like sidebar */
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+}
+
+/* Sidebar popup styles */
+.dcf-popup-sidebar {
+    position: fixed;
+    top: 20px;
+    width: 300px;
+    max-height: 80vh;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: auto;
+    z-index: 999999;
+    transition: transform 0.3s ease-out;
+}
+
+.dcf-popup-sidebar.dcf-popup-sidebar-right {
+    right: 20px;
+    transform: translateX(100%);
+}
+
+.dcf-popup-sidebar.dcf-popup-sidebar-left {
+    left: 20px;
+    transform: translateX(-100%);
+}
+
+.dcf-popup-sidebar.dcf-popup-active {
+    transform: translateX(0);
+}
+
+/* Split-screen popup styles */
+.dcf-popup-split-screen,
+.dcf-split-screen-popup {
+    background: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative !important;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: dcf-fadeIn 0.3s ease-out;
+    display: flex;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.dcf-split-image-section {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100%;
+    background-color: #e8e8e8; /* Default background when no image */
+}
+
+.dcf-split-content-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow-y: auto;
+    background-color: #5DBCD2; /* Force turquoise background */
+}
+
+/* Split screen ratios */
+.dcf-split-ratio-50-50 .dcf-split-image-section,
+.dcf-split-ratio-50-50 .dcf-split-content-section {
+    flex: 1;
+}
+
+.dcf-split-ratio-40-60 .dcf-split-image-section {
+    flex: 0 0 40%;
+}
+
+.dcf-split-ratio-40-60 .dcf-split-content-section {
+    flex: 0 0 60%;
+}
+
+.dcf-split-ratio-60-40 .dcf-split-image-section {
+    flex: 0 0 60%;
+}
+
+.dcf-split-ratio-60-40 .dcf-split-content-section {
+    flex: 0 0 40%;
+}
+
+/* Image position variants */
+.dcf-split-layout-image-right {
+    flex-direction: row-reverse;
+}
+
+/* Bar popup styles */
+.dcf-popup-bar {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: #2271b1;
+    color: #ffffff;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    transition: transform 0.3s ease-out;
+}
+
+.dcf-popup-bar.dcf-popup-bar-top {
+    top: 0;
+    transform: translateY(-100%);
+}
+
+.dcf-popup-bar.dcf-popup-bar-bottom {
+    bottom: 0;
+    transform: translateY(100%);
+}
+
+.dcf-popup-bar.dcf-popup-active {
+    transform: translateY(0);
+}
+
+/* Multi-step popup styles */
+.dcf-popup-multi-step {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: dcf-fadeIn 0.3s ease-out;
+}
+
+.dcf-popup-progress {
+    height: 4px;
+    background: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+}
+
+.dcf-popup-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #2271b1, #72aee6);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Close button styles */
+.dcf-popup-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s ease;
+    z-index: 1;
+}
+
+.dcf-popup-close:hover {
+    color: #333;
+}
+
+.dcf-popup-close:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
+/* Content area */
+.dcf-popup-content {
+    position: relative;
+}
+
+.dcf-popup-content h1,
+.dcf-popup-content h2,
+.dcf-popup-content h3,
+.dcf-popup-content h4,
+.dcf-popup-content h5,
+.dcf-popup-content h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.dcf-popup-content p {
+    margin-bottom: 1rem;
+}
+
+.dcf-popup-content .dcf-form {
+    margin: 0;
+}
+
+/* Form styles within popups */
+.dcf-popup .dcf-form-field {
+    margin-bottom: 1rem;
+}
+
+.dcf-popup .dcf-form-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.dcf-popup .dcf-form-field input,
+.dcf-popup .dcf-form-field textarea,
+.dcf-popup .dcf-form-field select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.dcf-popup .dcf-form-field input:focus,
+.dcf-popup .dcf-form-field textarea:focus,
+.dcf-popup .dcf-form-field select:focus {
+    outline: none;
+    border-color: #2271b1;
+    box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.1);
+}
+
+/* Style the actual submit button, not the container */
+.dcf-popup .dcf-submit-button {
+    background: #2271b1;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dcf-popup .dcf-submit-button:hover {
+    background: #1e5a8a;
+}
+
+.dcf-popup .dcf-submit-button:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
+/* Ensure the form-submit container has no button styling */
+.dcf-popup .dcf-form-submit {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: default;
+}
+
+/* Popup headline and content styles */
+.dcf-popup-headline {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: inherit;
+}
+
+.dcf-popup-subheadline {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: inherit;
+    opacity: 0.95;
+}
+
+/* Multi-step popup styles */
+.dcf-multi-step-popup {
+    width: 100%;
+}
+
+.dcf-popup-step {
+    width: 100%;
+}
+
+/* Form wrapper */
+.dcf-form-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Popup buttons */
+.dcf-popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.dcf-popup-button,
+.dcf-button-primary:not([style*="background-color"]) {
+    background: #FF69B4;
+    color: #ffffff;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.dcf-popup-button:hover,
+.dcf-button-primary:hover {
+    background: #FF1493;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+}
+
+.dcf-button-text-link {
+    background: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    text-decoration: underline !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+}
+
+.dcf-button-text-link:hover {
+    opacity: 0.8;
+    transform: none !important;
+}
+
+/* Split screen specific content styling */
+.dcf-split-content-section .dcf-popup-content {
+    width: 100%;
+    text-align: center;
+}
+
+.dcf-split-content-section .dcf-popup-headline,
+.dcf-split-content-section .dcf-popup-subheadline {
+    color: #ffffff;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .dcf-popup-modal {
+        margin: 20px;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 40px);
+    }
+    
+    .dcf-popup-sidebar {
+        width: 280px;
+        top: 10px;
+        max-height: calc(100vh - 20px);
+    }
+    
+    .dcf-popup-sidebar.dcf-popup-sidebar-right {
+        right: 10px;
+    }
+    
+    .dcf-popup-sidebar.dcf-popup-sidebar-left {
+        left: 10px;
+    }
+    
+    .dcf-popup-bar {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .dcf-popup-multi-step {
+        margin: 20px;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 40px);
+    }
+    
+    .dcf-popup-content {
+        padding: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .dcf-popup-modal,
+    .dcf-popup-multi-step {
+        margin: 10px;
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
+        border-radius: 4px;
+    }
+    
+    .dcf-popup-sidebar {
+        width: calc(100vw - 20px);
+        left: 10px !important;
+        right: 10px !important;
+        transform: translateY(100%) !important;
+        top: auto !important;
+        bottom: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .dcf-popup-sidebar.dcf-popup-active {
+        transform: translateY(0) !important;
+    }
+    
+    .dcf-popup-content {
+        padding: 15px !important;
+    }
+    
+    .dcf-popup-close {
+        font-size: 18px;
+        top: 10px;
+        right: 10px;
+    }
+    
+    /* Split-screen mobile responsiveness */
+    .dcf-split-screen-popup {
+        flex-direction: column;
+        max-height: 90vh;
+    }
+    
+    .dcf-split-image-section {
+        flex: none;
+        height: 200px;
+        width: 100%;
+    }
+    
+    .dcf-split-content-section {
+        flex: 1;
+        padding: 20px;
+    }
+}
+
+/* Animations */
+@keyframes dcf-fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes dcf-slideInUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes dcf-slideInDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes dcf-slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes dcf-slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Animation classes */
+.dcf-popup-fadeIn {
+    animation: dcf-fadeIn 0.3s ease-out;
+}
+
+.dcf-popup-slideInUp {
+    animation: dcf-slideInUp 0.3s ease-out;
+}
+
+.dcf-popup-slideInDown {
+    animation: dcf-slideInDown 0.3s ease-out;
+}
+
+.dcf-popup-slideInRight {
+    animation: dcf-slideInRight 0.3s ease-out;
+}
+
+.dcf-popup-slideInLeft {
+    animation: dcf-slideInLeft 0.3s ease-out;
+}
+
+/* Accessibility improvements */
+.dcf-popup:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
+.dcf-popup-overlay[aria-hidden="true"] {
+    display: none !important;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .dcf-popup {
+        border: 2px solid;
+    }
+    
+    .dcf-popup-close {
+        border: 1px solid;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .dcf-popup,
+    .dcf-popup-sidebar,
+    .dcf-popup-bar,
+    .dcf-popup-progress-bar {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .dcf-popup-modal,
+    .dcf-popup-multi-step {
+        background: #1e1e1e;
+        color: #ffffff;
+    }
+    
+    .dcf-popup-sidebar {
+        background: #2d2d2d;
+        color: #ffffff;
+    }
+    
+    .dcf-popup-content h1,
+    .dcf-popup-content h2,
+    .dcf-popup-content h3,
+    .dcf-popup-content h4,
+    .dcf-popup-content h5,
+    .dcf-popup-content h6 {
+        color: #ffffff;
+    }
+    
+    .dcf-popup .dcf-form-field input,
+    .dcf-popup .dcf-form-field textarea,
+    .dcf-popup .dcf-form-field select {
+        background: #3d3d3d;
+        border-color: #555;
+        color: #ffffff;
+    }
+    
+    .dcf-popup-close {
+        color: #ccc;
+    }
+    
+    .dcf-popup-close:hover {
+        color: #ffffff;
+    }
+}
+
+/* Print styles */
+@media print {
+    .dcf-popup-overlay,
+    .dcf-popup {
+        display: none !important;
+    }
+}
+
+/* Enhanced Mobile Responsive Styles */
+@media (max-width: 768px) {
+    /* Modal popups on mobile */
+    .dcf-popup-modal {
+        width: 95% !important;
+        max-width: none !important;
+        margin: 10px !important;
+        max-height: calc(100vh - 20px) !important;
+        padding: 20px !important;
+    }
+    
+    /* Overlay improvements */
+    .dcf-popup-overlay {
+        padding: 10px;
+    }
+    
+    /* Form field adjustments */
+    .dcf-popup .dcf-field {
+        margin-bottom: 15px;
+    }
+    
+    .dcf-popup input[type="text"],
+    .dcf-popup input[type="email"],
+    .dcf-popup input[type="tel"],
+    .dcf-popup input[type="number"],
+    .dcf-popup textarea,
+    .dcf-popup select {
+        width: 100% !important;
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 12px 16px !important;
+    }
+    
+    /* Button adjustments */
+    .dcf-popup button,
+    .dcf-popup .dcf-submit-button {
+        width: 100% !important;
+        padding: 14px 20px !important;
+        font-size: 16px !important;
+    }
+    
+    /* Multi-step navigation */
+    .dcf-multi-step-popup .dcf-step-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dcf-multi-step-popup .dcf-step-navigation button {
+        width: 100%;
+    }
+    
+    /* Yes/No buttons */
+    .dcf-yes-no-buttons {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    .dcf-yes-button,
+    .dcf-no-button {
+        width: 100% !important;
+    }
+    
+    /* Typography adjustments */
+    .dcf-popup h1 {
+        font-size: 24px !important;
+    }
+    
+    .dcf-popup h2 {
+        font-size: 20px !important;
+    }
+    
+    .dcf-popup h3 {
+        font-size: 18px !important;
+    }
+    
+    .dcf-popup p,
+    .dcf-popup li {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+    }
+    
+    /* Close button improvements */
+    .dcf-popup-close {
+        width: 44px;
+        height: 44px;
+        font-size: 24px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.1);
+        border-radius: 50%;
+    }
+    
+    /* Sidebar popup adjustments */
+    .dcf-popup-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        top: 0 !important;
+        border-radius: 0 !important;
+    }
+    
+    /* Bar popup adjustments */
+    .dcf-popup-bar {
+        height: auto !important;
+        min-height: 80px;
+        padding: 15px !important;
+    }
+    
+    .dcf-popup-bar .dcf-popup-content {
+        font-size: 14px !important;
+    }
+    
+    /* Countdown timer mobile */
+    .dcf-countdown-box {
+        padding: 8px 12px !important;
+        margin: 0 2px !important;
+    }
+    
+    .dcf-countdown-value {
+        font-size: 20px !important;
+    }
+    
+    .dcf-countdown-label {
+        font-size: 10px !important;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .dcf-popup-modal {
+        width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        min-height: 100vh !important;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .dcf-popup-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Full screen overlay */
+    .dcf-popup-overlay {
+        padding: 0;
+    }
+    
+    /* Form step indicators */
+    .dcf-form-steps {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+    }
+    
+    .dcf-step {
+        flex: 0 0 auto;
+        min-width: 80px;
+    }
+    
+    .dcf-step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .dcf-step-title {
+        font-size: 12px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase tap targets */
+    .dcf-popup a,
+    .dcf-popup button,
+    .dcf-popup input[type="checkbox"],
+    .dcf-popup input[type="radio"],
+    .dcf-popup label {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Improve checkbox/radio spacing */
+    .dcf-checkbox-option,
+    .dcf-radio-option {
+        padding: 10px 0;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .dcf-popup button:hover {
+        transform: none !important;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .dcf-popup-modal {
+        max-height: calc(100vh - 20px) !important;
+        overflow-y: auto;
+    }
+    
+    .dcf-popup-content {
+        padding: 15px !important;
+    }
+    
+    .dcf-form-steps {
+        display: none; /* Hide steps indicator to save space */
+    }
+}
+
+/* Popup Preview */
+.dcf-popup-preview {
+    position: relative;
+    background: #f6f7f7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+    min-height: 400px;
+}
+
+/* Remove editing UI from popup preview */
+.dcf-popup-preview .dcf-draggable-block {
+    cursor: default !important;
+}
+
+.dcf-popup-preview .dcf-draggable-block:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.dcf-popup-preview .dcf-block-drag-handle {
+    display: none !important;
+}
+
+/* Enhanced Split-Screen Popup Styles */
+.dcf-split-screen-popup .dcf-split-image-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.dcf-split-screen-popup .dcf-split-content-section {
+    position: relative;
+    overflow-y: auto;
+}
+
+/* Ensure proper centering for split-screen popups */
+.dcf-popup-overlay .dcf-split-screen-popup {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+}
+
+/* Mobile responsiveness for split-screen popups */
+@media (max-width: 768px) {
+    .dcf-split-screen-popup {
+        flex-direction: column !important;
+        height: auto !important;
+        max-height: 90vh;
+    }
+    
+    .dcf-split-screen-popup .dcf-split-image-section {
+        flex: 0 0 200px !important;
+        width: 100% !important;
+        height: 200px !important;
+    }
+    
+    .dcf-split-screen-popup .dcf-split-content-section {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        min-height: 300px;
+        padding: 30px 20px !important;
+    }
+}
+
+/* Multi-step content in split-screen */
+.dcf-split-screen-popup .dcf-multi-step-popup {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dcf-split-screen-popup .dcf-popup-step {
+    width: 100%;
+    padding: 20px;
+}
+
+/* Ensure content is visible in split-screen */
+.dcf-split-screen-popup .dcf-popup-headline {
+    color: #ffffff !important;
+    font-size: 32px !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px !important;
+    line-height: 1.2 !important;
+}
+
+.dcf-split-screen-popup .dcf-popup-subheadline {
+    color: #ffffff !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    margin-bottom: 30px !important;
+    opacity: 0.95;
+}
+
+.dcf-split-screen-popup .dcf-popup-description {
+    color: #ffffff !important;
+    margin-bottom: 20px !important;
+}
+
+/* Form styling in split-screen */
+.dcf-split-screen-popup .dcf-form-field {
+    margin-bottom: 20px;
+}
+
+.dcf-split-screen-popup .dcf-form-field input {
+    width: 100%;
+    text-align: center;
+}
+
+/* Button styling in split-screen */
+.dcf-split-screen-popup .dcf-popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Force split-screen sections to be visible */
+.dcf-split-screen-popup .dcf-split-image-section,
+.dcf-split-screen-popup .dcf-split-content-section {
+    min-height: 400px;
+}
+
+/* Ensure form fields are styled correctly in split-screen */
+.dcf-split-screen-popup input[type="email"],
+.dcf-split-screen-popup input[type="text"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    padding: 14px 20px !important;
+    border-radius: 50px !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    display: block !important;
+    font-size: 16px !important;
+}
+
+.dcf-split-screen-popup input[type="email"]:focus,
+.dcf-split-screen-popup input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: #ffffff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2) !important;
+}
+
+.dcf-split-screen-popup input[type="email"]::placeholder,
+.dcf-split-screen-popup input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Split-screen buttons */
+.dcf-split-screen-popup button[type="submit"],
+.dcf-split-screen-popup .dcf-popup-button {
+    background: #FF69B4 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 16px 32px !important;
+    border-radius: 50px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3) !important;
+}
+
+.dcf-split-screen-popup button[type="submit"]:hover,
+.dcf-split-screen-popup .dcf-popup-button:hover {
+    background: #FF1493 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4) !important;
+}
+
+.dcf-split-screen-popup .dcf-button-text-link {
+    background: transparent !important;
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+}
+
+.dcf-split-screen-popup .dcf-button-text-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transform: none !important;
+}
+
+/* Ensure form wrapper is centered in split-screen */
+.dcf-split-screen-popup .dcf-form-wrapper,
+.dcf-split-screen-popup .dcf-popup-form {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+}
+
+/* ==========================================================================
+   Fix for unwanted borders on blocks and form containers
+   ========================================================================== */
+
+/* Remove borders from all block elements in popups */
+.dcf-popup .dcf-block,
+.dcf-popup .dcf-block-spacer,
+.dcf-popup .dcf-block-form,
+.dcf-popup .dcf-form-block,
+.dcf-popup .dcf-form-wrapper,
+.dcf-popup .dcf-form-container,
+.dcf-popup .dcf-draggable-block {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove hover borders from draggable blocks in popup preview */
+.dcf-popup .dcf-draggable-block::before,
+.dcf-popup .dcf-draggable-block::after,
+.dcf-popup .dcf-draggable-hover::before {
+    display: none !important;
+}
+
+/* Ensure spacer blocks are truly invisible */
+.dcf-popup .dcf-block-spacer {
+    background: transparent !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ==========================================================================
+   Fix for custom submit button colors
+   ========================================================================== */
+
+/* Remove gradient backgrounds from custom submit buttons to let inline styles work */
+.dcf-popup button[type="submit"].dcf-custom-submit,
+.dcf-popup .dcf-submit-button.dcf-custom-submit {
+    background-image: none !important;
+    background: initial !important; /* Reset background to let inline styles work */
+}
+
+/* Ensure hover states respect custom colors */
+.dcf-popup button[type="submit"].dcf-custom-submit:hover,
+.dcf-popup .dcf-submit-button.dcf-custom-submit:hover {
+    background-image: none !important;
+    filter: brightness(0.9); /* Slightly darken on hover */
+    opacity: 0.9;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Remove forced background from modern-forms.css */
+.dcf-popup button[type="submit"].dcf-custom-submit {
+    /* Override the gradient that modern-forms.css applies */
+    background: initial !important;
+    background-image: none !important;
+}
+
+/* Active state for custom buttons */
+.dcf-popup button[type="submit"].dcf-custom-submit:active,
+.dcf-popup .dcf-submit-button.dcf-custom-submit:active {
+    transform: translateY(0);
+    filter: brightness(0.85);
+}
+
+/* Form field wrapper */
+.dcf-split-screen-popup .dcf-popup-field,
+.dcf-split-screen-popup .dcf-form-field {
+    margin-bottom: 20px !important;
+}
+
+/* Ensure content area text is visible */
+.dcf-split-screen-popup .dcf-popup-content {
+    color: #ffffff !important;
+}
+
+.dcf-split-screen-popup .dcf-popup-content h1,
+.dcf-split-screen-popup .dcf-popup-content h2,
+.dcf-split-screen-popup .dcf-popup-content h3,
+.dcf-split-screen-popup .dcf-popup-content h4,
+.dcf-split-screen-popup .dcf-popup-content h5,
+.dcf-split-screen-popup .dcf-popup-content h6,
+.dcf-split-screen-popup .dcf-popup-content p {
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   Fullscreen Popup Type
+   ========================================================================== */
+
+.dcf-popup-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    z-index: 999999 !important;
+    overflow-y: auto;
+}
+
+.dcf-popup-fullscreen .dcf-popup-close {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.dcf-popup-fullscreen .dcf-popup-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.dcf-popup-fullscreen .dcf-popup-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   Fix for spacer blocks showing as clickable lines
+   ========================================================================== */
+
+/* Hide spacer blocks completely - they should only provide spacing */
+.dcf-popup .dcf-block-spacer {
+    display: block !important; /* Keep block for spacing */
+    visibility: hidden !important; /* Make invisible */
+    pointer-events: none !important; /* Disable all mouse events */
+    user-select: none !important; /* Disable selection */
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+}
+
+/* Ensure spacer blocks don't have any content that could appear */
+.dcf-popup .dcf-block-spacer * {
+    display: none !important;
+}
+
+/* Remove any pseudo-elements that might create visible content */
+.dcf-popup .dcf-block-spacer::before,
+.dcf-popup .dcf-block-spacer::after {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Remove borders from blocks and forms in popups
+   ========================================================================== */
+
+/* Remove all borders from blocks in popups */
+.dcf-popup .dcf-block,
+.dcf-popup-content .dcf-block,
+.dcf-popup .dcf-block-form,
+.dcf-popup .dcf-form-container,
+.dcf-popup .dcf-form-wrapper {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure no borders on spacer blocks */
+.dcf-popup .dcf-block-spacer {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Remove borders from form elements */
+.dcf-popup .dcf-block-form .dcf-form-container {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* ==========================================================================
+   Fix custom submit button colors
+   ========================================================================== */
+
+/* Allow custom submit button colors to work properly */
+.dcf-popup .dcf-submit-button.dcf-custom-submit,
+.dcf-popup button[type="submit"].dcf-custom-submit,
+.dcf-popup .dcf-form-submit button.dcf-custom-submit {
+    /* Remove the gradient that overrides custom colors */
+    background-image: none !important;
+    /* Allow inline styles to work */
+    background: var(--button-bg-color) !important;
+}
+
+/* Maintain hover effects while respecting custom colors */
+.dcf-popup .dcf-submit-button.dcf-custom-submit:hover,
+.dcf-popup button[type="submit"].dcf-custom-submit:hover,
+.dcf-popup .dcf-form-submit button.dcf-custom-submit:hover {
+    /* Use filter for hover effect instead of changing background */
+    filter: brightness(0.9);
+    background-image: none !important;
+}
+
+/* Fix the issue where gradient overrides inline styles */
+.dcf-popup button[type="submit"][style*="background"] {
+    background-image: none !important;
+}
+
+/* ==========================================================================
+   Hide visual editor UI elements in live popups
+   ========================================================================== */
+
+/* Hide all editor toolbars in live popups */
+.dcf-popup .dcf-block-toolbar,
+.dcf-popup-content .dcf-block-toolbar {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    pointer-events: none !important;
+}
+
+/* Hide editor tools inside any block */
+.dcf-popup .dcf-block-tool,
+.dcf-popup-content .dcf-block-tool,
+.dcf-popup .dcf-block .dcf-block-tool,
+.dcf-popup-content .dcf-block .dcf-block-tool {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Hide drag handles and other editor UI */
+.dcf-popup .dcf-drag-handle,
+.dcf-popup .dcf-block-selected,
+.dcf-popup .dcf-block-hover,
+.dcf-popup .dcf-resize-handle {
+    display: none !important;
+}
+
+/* Remove any editor-specific classes and states */
+.dcf-popup .dcf-editing,
+.dcf-popup .dcf-dragging,
+.dcf-popup .dcf-resizing {
+    display: none !important;
+}
+
+/* Clean up text blocks that might have editor buttons */
+.dcf-popup .dcf-block-text {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* Hide dashicons used in editor tools */
+.dcf-popup .dashicons,
+.dcf-popup-content .dashicons {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Fix submit button gradient issue
+   ========================================================================== */
+
+/* Override gradient but preserve inline styles */
+.dcf-popup button[type="submit"]:not([style*="background"]),
+.dcf-popup .dcf-submit-button:not([style*="background"]),
+.dcf-popup .dcf-form-submit button:not([style*="background"]) {
+    background-image: none !important;
+    background: #2271b1 !important; /* Default blue if no custom color */
+}
+
+/* Ensure inline styles take precedence */
+.dcf-popup button[type="submit"][style],
+.dcf-popup .dcf-submit-button[style],
+.dcf-popup .dcf-form-submit button[style] {
+    background-image: none !important;
+}
+
+/* Remove any gradient from submit buttons */
+.dcf-popup input[type="submit"],
+.dcf-popup button[type="submit"],
+.dcf-popup .button-primary,
+.dcf-popup .dcf-button-primary {
+    background-image: none !important;
+}
+
+/* Specifically target form submit buttons to allow custom colors */
+.dcf-popup .dcf-form-submit button[type="submit"][style*="background"],
+.dcf-popup .dcf-block-form button[type="submit"][style*="background"] {
+    background-image: none !important;
+    /* Don't override the inline background color */
+}
+
+/* For buttons with inline background-color styles, preserve them */
+.dcf-popup button[type="submit"][style*="background-color"],
+.dcf-popup .dcf-form-submit button[style*="background-color"] {
+    background-image: none !important;
+    /* Don't override the background property - let inline style work */
+}
+
+/* Hover state for custom colored buttons */
+.dcf-popup .dcf-form-submit button[type="submit"][style*="background"]:hover {
+    filter: brightness(0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}

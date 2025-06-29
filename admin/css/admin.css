@@ -1,0 +1,1213 @@
+/**
+ * Dry Cleaning Forms - Admin Styles
+ */
+
+/* Dashboard Styles */
+.dcf-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0 30px 0;
+}
+
+.dcf-stat-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.dcf-stat-icon {
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    background: #2271b1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dcf-stat-icon .dashicons {
+    color: #fff;
+    font-size: 24px;
+}
+
+.dcf-stat-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.dcf-stat-content p {
+    margin: 0;
+    color: #646970;
+    font-size: 14px;
+}
+
+/* Dashboard Sections */
+.dcf-dashboard-content {
+    display: grid;
+    gap: 30px;
+}
+
+.dcf-dashboard-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.dcf-section-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #c3c4c7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f6f7f7;
+}
+
+.dcf-section-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.dcf-table-container {
+    overflow-x: auto;
+}
+
+.dcf-no-data {
+    text-align: center;
+    color: #646970;
+    font-style: italic;
+    padding: 40px 20px;
+}
+
+/* Status Indicators */
+.dcf-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dcf-status-completed {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.dcf-status-pending {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.dcf-status-step-1-completed,
+.dcf-status-step-2-completed,
+.dcf-status-step-3-completed {
+    background: #cff4fc;
+    color: #055160;
+}
+
+.dcf-status-error,
+.dcf-status-failed {
+    background: #f8d7da;
+    color: #842029;
+}
+
+/* Integration Status */
+.dcf-integrations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.dcf-integration-card {
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    background: #fff;
+}
+
+.dcf-integration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dcf-integration-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.dcf-integration-status {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dcf-integration-status .dashicons {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.dcf-status-connected {
+    color: #0f5132;
+}
+
+.dcf-status-disconnected {
+    color: #842029;
+}
+
+.dcf-integration-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.dcf-integration-details .dashicons {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.dcf-configured {
+    color: #0f5132;
+}
+
+.dcf-not-configured {
+    color: #664d03;
+}
+
+.dcf-error {
+    color: #842029;
+}
+
+.dcf-integration-actions {
+    margin-top: 15px;
+}
+
+/* No Integration State */
+.dcf-no-integration {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.dcf-no-integration-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.dcf-no-integration h3 {
+    margin: 15px 0 10px 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.dcf-no-integration p {
+    margin: 0 0 20px 0;
+    color: #646970;
+    line-height: 1.5;
+}
+
+/* Quick Actions */
+.dcf-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.dcf-action-card {
+    display: block;
+    padding: 20px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #1d2327;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.dcf-action-card:hover {
+    border-color: #2271b1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #1d2327;
+}
+
+.dcf-action-card .dashicons {
+    font-size: 32px;
+    color: #2271b1;
+    margin-bottom: 10px;
+}
+
+.dcf-action-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.dcf-action-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #646970;
+}
+
+/* Form Builder Styles */
+.dcf-form-builder {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    gap: 20px;
+    min-height: 600px;
+}
+
+.dcf-field-palette {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.dcf-field-palette h3 {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #1d2327;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.dcf-field-type {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    background: #fff;
+    text-align: left;
+    cursor: move;
+    transition: all 0.2s ease;
+}
+
+.dcf-field-type:hover {
+    border-color: #2271b1;
+    background: #f6f7f7;
+}
+
+.dcf-field-type .dashicons {
+    margin-right: 8px;
+    color: #646970;
+}
+
+.dcf-form-canvas {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    min-height: 500px;
+}
+
+.dcf-form-settings {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.dcf-form-field {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px dashed #c3c4c7;
+    border-radius: 3px;
+    position: relative;
+}
+
+.dcf-form-field:hover {
+    border-color: #2271b1;
+}
+
+.dcf-form-field.dcf-field-selected {
+    border-color: #2271b1;
+    border-style: solid;
+    background: #f6f7f7;
+}
+
+.dcf-field-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+}
+
+.dcf-form-field:hover .dcf-field-controls,
+.dcf-form-field.dcf-field-selected .dcf-field-controls {
+    display: block;
+}
+
+.dcf-field-control {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.dcf-field-control:hover {
+    background: #135e96;
+}
+
+/* Settings Page */
+.dcf-settings-tabs {
+    margin-bottom: 20px;
+}
+
+.dcf-settings-tabs .nav-tab {
+    margin-right: 5px;
+}
+
+.dcf-settings-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.dcf-settings-section h3 {
+    margin: 0;
+    padding: 15px 20px;
+    background: #f6f7f7;
+    border-bottom: 1px solid #c3c4c7;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.dcf-settings-section .form-table {
+    margin: 0;
+}
+
+.dcf-settings-section .form-table th,
+.dcf-settings-section .form-table td {
+    padding: 15px 20px;
+}
+
+.dcf-test-integration {
+    margin-left: 10px;
+}
+
+.dcf-test-result {
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.dcf-test-result.success {
+    color: #0f5132;
+}
+
+.dcf-test-result.error {
+    color: #842029;
+}
+
+/* Analytics Page */
+.dcf-analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dcf-chart-container {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.dcf-chart-container h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    color: #1d2327;
+}
+
+.dcf-chart {
+    height: 300px;
+    width: 100%;
+}
+
+/* Submissions Page */
+.dcf-submissions-filters {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.dcf-submissions-filters label {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.dcf-submissions-filters select {
+    min-width: 150px;
+}
+
+/* Loading States */
+.dcf-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.dcf-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dcf-loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #2271b1;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: dcf-spin 1s linear infinite;
+    z-index: 1001;
+}
+
+@keyframes dcf-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dcf-form-builder {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .dcf-field-palette,
+    .dcf-form-settings {
+        order: 2;
+    }
+    
+    .dcf-form-canvas {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dcf-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-integrations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-quick-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-submissions-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .dcf-section-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+}
+
+/* Accessibility */
+.dcf-field-type:focus,
+.dcf-field-control:focus,
+.dcf-action-card:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+/* Form Editor Specific Styles */
+.dcf-form-editor {
+    margin: 20px 0;
+}
+
+.dcf-editor-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dcf-editor-sidebar {
+    width: 300px;
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    height: fit-content;
+}
+
+.dcf-sidebar-section {
+    border-bottom: 1px solid #c3c4c7;
+}
+
+.dcf-sidebar-section:last-child {
+    border-bottom: none;
+}
+
+.dcf-sidebar-section h3 {
+    margin: 0;
+    padding: 15px 20px;
+    background: #f6f7f7;
+    border-bottom: 1px solid #c3c4c7;
+    font-size: 16px;
+}
+
+.dcf-form-settings {
+    padding: 20px;
+}
+
+.dcf-field-group {
+    margin-bottom: 15px;
+}
+
+.dcf-field-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.dcf-field-group input,
+.dcf-field-group select,
+.dcf-field-group textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.dcf-field-library {
+    padding: 10px;
+}
+
+.dcf-field-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    background: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    cursor: move;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.dcf-field-item:hover {
+    background: #e0e0e0;
+    border-color: #2271b1;
+}
+
+.dcf-field-item .dashicons {
+    margin-right: 10px;
+    color: #646970;
+}
+
+/* Field Categories Layout */
+.dcf-field-categories {
+    padding: 0 !important;
+}
+
+.dcf-field-category {
+    margin-bottom: 25px;
+    padding: 0 15px;
+}
+
+.dcf-category-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dcf-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+/* Adjust field items in grid */
+.dcf-field-categories .dcf-field-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    margin-bottom: 0;
+    text-align: center;
+    background: #f6f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: move;
+    transition: all 0.2s;
+    min-height: 80px;
+    justify-content: center;
+}
+
+.dcf-field-categories .dcf-field-item:hover {
+    background: #e5e7eb;
+    border-color: #2271b1;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dcf-field-categories .dcf-field-item .dashicons {
+    margin-right: 0;
+    margin-bottom: 8px;
+    font-size: 24px;
+    color: #2271b1;
+}
+
+.dcf-field-label {
+    font-size: 12px;
+    line-height: 1.2;
+    color: #1d2327;
+    word-break: break-word;
+}
+
+/* Wide items (like submit button) */
+.dcf-field-item-wide {
+    grid-column: 1 / -1;
+}
+
+/* Dragging state */
+.dcf-field-categories .dcf-field-item.ui-draggable-dragging {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dcf-editor-main {
+    flex: 1;
+}
+
+.dcf-editor-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.dcf-form-header {
+    padding: 30px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.dcf-form-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    color: #1d2327;
+}
+
+.dcf-form-header p {
+    margin: 0;
+    color: #646970;
+}
+
+.dcf-form-fields {
+    padding: 30px;
+    min-height: 400px;
+    position: relative;
+}
+
+.dcf-empty-form {
+    text-align: center;
+    color: #646970;
+    padding: 60px 20px;
+}
+
+.dcf-empty-form .dashicons {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.dcf-empty-form p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Drag and Drop Styles */
+.dcf-form-fields.dcf-drop-zone-active {
+    background: #f0f8ff;
+    border: 2px dashed #2271b1;
+    border-radius: 4px;
+}
+
+.dcf-field-placeholder {
+    height: 60px;
+    background: #e3f2fd;
+    border: 2px dashed #2271b1;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.dcf-form-field {
+    position: relative;
+    margin: 15px 0;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.dcf-form-field:hover {
+    border-color: #2271b1;
+    box-shadow: 0 2px 4px rgba(34, 113, 177, 0.1);
+}
+
+.dcf-field-handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: move;
+    color: #646970;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.dcf-form-field:hover .dcf-field-handle {
+    opacity: 1;
+}
+
+.dcf-field-preview {
+    margin-left: 30px;
+}
+
+.dcf-field-preview label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.dcf-field-preview input,
+.dcf-field-preview textarea,
+.dcf-field-preview select {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+/* Specific styles for complex field types */
+.dcf-field-preview .dcf-name-field .dcf-name-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.dcf-field-preview .dcf-name-first,
+.dcf-field-preview .dcf-name-last {
+    flex: 1;
+}
+
+.dcf-field-preview .dcf-name-first input,
+.dcf-field-preview .dcf-name-last input {
+    width: 100%;
+    max-width: none;
+}
+
+.dcf-field-preview .dcf-address-field {
+    margin-top: 8px;
+}
+
+.dcf-field-preview .dcf-address-field .dcf-address-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.dcf-field-preview .dcf-address-field .dcf-address-row:last-child {
+    margin-bottom: 0;
+}
+
+.dcf-field-preview .dcf-address-line1,
+.dcf-field-preview .dcf-address-line2 {
+    flex: 1;
+}
+
+.dcf-field-preview .dcf-address-city {
+    flex: 2;
+}
+
+.dcf-field-preview .dcf-address-state {
+    flex: 1;
+}
+
+.dcf-field-preview .dcf-address-zip {
+    flex: 1;
+}
+
+.dcf-field-preview .dcf-address-field input {
+    width: 100%;
+    max-width: none;
+}
+
+.dcf-field-preview .dcf-terms-field {
+    margin-top: 8px;
+}
+
+.dcf-field-preview .dcf-terms-field label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: normal;
+}
+
+.dcf-field-preview .dcf-terms-field input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    max-width: none;
+}
+
+.dcf-field-preview .dcf-radio-preview,
+.dcf-field-preview .dcf-checkbox-preview {
+    margin-top: 8px;
+}
+
+.dcf-field-preview .dcf-radio-preview label,
+.dcf-field-preview .dcf-checkbox-preview label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.dcf-field-preview .dcf-radio-preview input[type="radio"],
+.dcf-field-preview .dcf-checkbox-preview input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0;
+    flex-shrink: 0;
+    max-width: none;
+}
+
+/* Responsive adjustments for field previews */
+@media (max-width: 768px) {
+    .dcf-field-preview .dcf-name-field .dcf-name-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .dcf-field-preview .dcf-address-field .dcf-address-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+.dcf-field-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.dcf-form-field:hover .dcf-field-actions {
+    opacity: 1;
+}
+
+.dcf-field-actions button {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-left: 3px;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.dcf-field-actions button:hover {
+    background: #135e96;
+}
+
+.dcf-field-actions .dcf-delete-field {
+    background: #d63638;
+}
+
+.dcf-field-actions .dcf-delete-field:hover {
+    background: #b32d2e;
+}
+
+/* Dragging States */
+.ui-draggable-dragging {
+    z-index: 1000;
+    opacity: 0.8;
+    transform: rotate(5deg);
+}
+
+.ui-sortable-helper {
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #2271b1;
+}
+
+/* Modal Styles */
+.dcf-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dcf-modal-content {
+    background: #fff;
+    border-radius: 4px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.dcf-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #c3c4c7;
+}
+
+.dcf-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.dcf-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #646970;
+}
+
+.dcf-modal-close:hover {
+    color: #1d2327;
+}
+
+.dcf-modal-body {
+    padding: 20px;
+}
+
+@media print {
+    .dcf-field-controls,
+    .dcf-integration-actions,
+    .dcf-quick-actions {
+        display: none;
+    }
+    
+    .dcf-dashboard-section,
+    .dcf-settings-section,
+    .dcf-chart-container {
+        break-inside: avoid;
+    }
+}
+
+/* Responsive design for complex fields */
+@media (max-width: 768px) {
+    .dcf-name-field .dcf-name-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .dcf-address-field .dcf-address-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Custom Submit Button Field Styles */
+.dcf-field-submit .dcf-field-input {
+    margin-top: 10px;
+}
+
+.dcf-custom-submit {
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    line-height: 1.5;
+}
+
+.dcf-custom-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.dcf-custom-submit:active {
+    transform: translateY(0);
+}
+
+.dcf-custom-submit:focus {
+    outline: 2px solid rgba(34, 113, 177, 0.5);
+    outline-offset: 2px;
+}
+
+/* Submit button field preview in form editor */
+.dcf-field-preview .dcf-custom-submit {
+    pointer-events: none;
+}
+
+/* Color input styling for submit button options */
+#submit-field-options input[type="color"] {
+    width: 50px;
+    height: 35px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+#submit-field-options input[type="number"] {
+    width: 80px;
+}
+
+/* POS Integration Settings in Form Editor */
+.dcf-pos-settings .dcf-field-group {
+    margin-bottom: 15px;
+}
+
+.dcf-pos-settings .dcf-field-group label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-weight: normal;
+    margin: 0;
+}
+
+.dcf-pos-settings .dcf-field-group input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 2px 8px 0 0;
+    cursor: pointer;
+}
+
+/* Fix checkbox styling in form settings */
+.dcf-form-settings .dcf-field-group input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    display: inline-block !important;
+    margin-right: 8px !important;
+    vertical-align: middle;
+}
+
+.dcf-form-settings .dcf-field-group label input[type="checkbox"] {
+    flex-shrink: 0;
+}
+
+.dcf-pos-settings .dcf-pos-options {
+    margin-top: 15px;
+    padding-left: 24px;
+    border-left: 3px solid #e0e0e0;
+}
+
+.dcf-pos-settings .dcf-pos-options .dcf-field-group {
+    margin-bottom: 10px;
+}
+
+.dcf-pos-settings .description {
+    margin-left: 24px;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #646970;
+    line-height: 1.4;
+}
+
+/* UTM Field Styles */
+.dcf-utm-field {
+    background-color: #f0f8ff;
+    border: 1px solid #b3d9ff;
+}
+
+.dcf-utm-field:hover {
+    background-color: #e6f3ff;
+    border-color: #99ccff;
+}
+
+.dcf-utm-field .dcf-field-preview label {
+    color: #0066cc;
+    font-style: italic;
+}
+
+.dcf-utm-field .dcf-field-handle {
+    opacity: 0.6;
+} 

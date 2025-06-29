@@ -1,0 +1,65 @@
+# Directories
+.git
+.github
+.vscode
+node_modules
+tests
+bin
+build
+
+# Files
+.distignore
+.gitignore
+.gitattributes
+.editorconfig
+.eslintrc.js
+.prettierrc
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpunit.xml
+phpunit.xml.dist
+README.md
+CONTRIBUTING.md
+UPDATE-SYSTEM-PLAN.md
+update-config-sample.php
+
+# Development files
+*.log
+*.sql
+*.sqlite
+.DS_Store
+Thumbs.db
+
+# Test files
+test-*.php
+check-*.php
+*-debug.php
+
+# Build files
+webpack.config.js
+gulpfile.js
+Gruntfile.js
+
+# IDE files
+*.sublime-project
+*.sublime-workspace
+.idea
+*.iml
+*.code-workspace
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Documentation source files
+docs/
+
+# Development dependencies
+vendor/bin/
+vendor/composer/
+vendor/autoload.php

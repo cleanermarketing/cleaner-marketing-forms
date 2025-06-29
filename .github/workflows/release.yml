@@ -1,0 +1,67 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer
+    
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+    
+    - name: Update version in plugin file
+      run: |
+        sed -i "s/Version: .*/Version: ${{ steps.get_version.outputs.VERSION }}/" cleaner-marketing-forms.php
+        sed -i "s/CMF_PLUGIN_VERSION', '.*'/CMF_PLUGIN_VERSION', '${{ steps.get_version.outputs.VERSION }}'/" cleaner-marketing-forms.php
+    
+    - name: Install Composer dependencies
+      run: composer install --no-dev --optimize-autoloader
+    
+    - name: Create distribution directory
+      run: mkdir -p dist/cleaner-marketing-forms
+    
+    - name: Copy plugin files
+      run: |
+        rsync -av --exclude-from='.distignore' . dist/cleaner-marketing-forms/
+    
+    - name: Create plugin zip
+      run: |
+        cd dist
+        zip -r ../cleaner-marketing-forms-${{ steps.get_version.outputs.VERSION }}.zip cleaner-marketing-forms/
+        cd ..
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        body_path: RELEASE_NOTES.md
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./cleaner-marketing-forms-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_name: cleaner-marketing-forms-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_content_type: application/zip

@@ -1,0 +1,541 @@
+# Copyright (C) 2024 Dry Cleaning Forms
+# This file is distributed under the same license as the Dry Cleaning Forms package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dry Cleaning Forms 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dry-cleaning-forms\n"
+"POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: admin/class-admin-dashboard.php:45
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:46
+msgid "Forms"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:47
+msgid "Submissions"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:48
+msgid "Analytics"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:49
+msgid "Settings"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:85
+msgid "Total Submissions"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:86
+msgid "Completed"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:87
+msgid "Conversion Rate"
+msgstr ""
+
+#: admin/class-admin-dashboard.php:88
+msgid "Recent Activity"
+msgstr ""
+
+#: admin/class-settings-page.php:35
+msgid "General"
+msgstr ""
+
+#: admin/class-settings-page.php:36
+msgid "POS Integrations"
+msgstr ""
+
+#: admin/class-settings-page.php:37
+msgid "Webhooks"
+msgstr ""
+
+#: admin/class-settings-page.php:38
+msgid "Email Notifications"
+msgstr ""
+
+#: admin/class-settings-page.php:39
+msgid "Advanced"
+msgstr ""
+
+#: admin/views/forms-list.php:12
+msgid "Add New"
+msgstr ""
+
+#: admin/views/forms-list.php:19
+msgid "No forms found"
+msgstr ""
+
+#: admin/views/forms-list.php:20
+msgid "Create your first form to get started collecting leads and customer information."
+msgstr ""
+
+#: admin/views/forms-list.php:22
+msgid "Create Your First Form"
+msgstr ""
+
+#: admin/views/forms-list.php:35
+msgid "Duplicate"
+msgstr ""
+
+#: admin/views/forms-list.php:38
+msgid "Edit"
+msgstr ""
+
+#: admin/views/forms-list.php:41
+msgid "Delete"
+msgstr ""
+
+#: admin/views/forms-list.php:60
+msgid "Submissions"
+msgstr ""
+
+#: admin/views/forms-list.php:66
+msgid "Shortcode:"
+msgstr ""
+
+#: admin/views/forms-list.php:72
+msgid "Created %s"
+msgstr ""
+
+#: admin/views/forms-list.php:75
+msgid "Edit Form"
+msgstr ""
+
+#: admin/views/form-editor.php:25
+msgid "Edit Form"
+msgstr ""
+
+#: admin/views/form-editor.php:25
+msgid "Create New Form"
+msgstr ""
+
+#: admin/views/form-editor.php:36
+msgid "Form Settings"
+msgstr ""
+
+#: admin/views/form-editor.php:39
+msgid "Form Name"
+msgstr ""
+
+#: admin/views/form-editor.php:40
+msgid "Enter form name"
+msgstr ""
+
+#: admin/views/form-editor.php:44
+msgid "Form Title"
+msgstr ""
+
+#: admin/views/form-editor.php:45
+msgid "Enter form title"
+msgstr ""
+
+#: admin/views/form-editor.php:49
+msgid "Form Type"
+msgstr ""
+
+#: admin/views/form-editor.php:51
+msgid "Contact Form"
+msgstr ""
+
+#: admin/views/form-editor.php:52
+msgid "Opt-in Form"
+msgstr ""
+
+#: admin/views/form-editor.php:53
+msgid "Customer Signup"
+msgstr ""
+
+#: admin/views/form-editor.php:57
+msgid "Description"
+msgstr ""
+
+#: admin/views/form-editor.php:58
+msgid "Enter form description"
+msgstr ""
+
+#: admin/views/form-editor.php:62
+msgid "Webhook URL"
+msgstr ""
+
+#: admin/views/form-editor.php:68
+msgid "Form Fields"
+msgstr ""
+
+#: admin/views/form-editor.php:71
+msgid "Text Input"
+msgstr ""
+
+#: admin/views/form-editor.php:75
+msgid "Email"
+msgstr ""
+
+#: admin/views/form-editor.php:79
+msgid "Phone"
+msgstr ""
+
+#: admin/views/form-editor.php:83
+msgid "Textarea"
+msgstr ""
+
+#: admin/views/form-editor.php:87
+msgid "Select Dropdown"
+msgstr ""
+
+#: admin/views/form-editor.php:91
+msgid "Radio Buttons"
+msgstr ""
+
+#: admin/views/form-editor.php:95
+msgid "Checkbox"
+msgstr ""
+
+#: admin/views/form-editor.php:99
+msgid "Date"
+msgstr ""
+
+#: admin/views/form-editor.php:103
+msgid "Number"
+msgstr ""
+
+#: admin/views/form-editor.php:107
+msgid "Hidden Field"
+msgstr ""
+
+#: admin/views/form-editor.php:115
+msgid "Preview"
+msgstr ""
+
+#: admin/views/form-editor.php:118
+msgid "Update Form"
+msgstr ""
+
+#: admin/views/form-editor.php:118
+msgid "Save Form"
+msgstr ""
+
+#: admin/views/form-editor.php:122
+msgid "Untitled Form"
+msgstr ""
+
+#: admin/views/form-editor.php:128
+msgid "Drag fields from the sidebar to build your form"
+msgstr ""
+
+#: admin/views/form-editor.php:135
+msgid "Edit Field"
+msgstr ""
+
+#: admin/views/form-editor.php:138
+msgid "Duplicate Field"
+msgstr ""
+
+#: admin/views/form-editor.php:141
+msgid "Delete Field"
+msgstr ""
+
+#: admin/views/submissions.php:12
+msgid "Form Submissions"
+msgstr ""
+
+#: admin/views/submissions.php:22
+msgid "Form:"
+msgstr ""
+
+#: admin/views/submissions.php:24
+msgid "All Forms"
+msgstr ""
+
+#: admin/views/submissions.php:33
+msgid "Status:"
+msgstr ""
+
+#: admin/views/submissions.php:35
+msgid "All Statuses"
+msgstr ""
+
+#: admin/views/submissions.php:36
+msgid "Pending"
+msgstr ""
+
+#: admin/views/submissions.php:37
+msgid "Completed"
+msgstr ""
+
+#: admin/views/submissions.php:38
+msgid "Failed"
+msgstr ""
+
+#: admin/views/submissions.php:39
+msgid "Abandoned"
+msgstr ""
+
+#: admin/views/submissions.php:44
+msgid "From:"
+msgstr ""
+
+#: admin/views/submissions.php:49
+msgid "To:"
+msgstr ""
+
+#: admin/views/submissions.php:54
+msgid "Filter"
+msgstr ""
+
+#: admin/views/submissions.php:55
+msgid "Clear"
+msgstr ""
+
+#: admin/views/submissions.php:64
+msgid "Bulk Actions"
+msgstr ""
+
+#: admin/views/submissions.php:66
+msgid "Mark as Completed"
+msgstr ""
+
+#: admin/views/submissions.php:67
+msgid "Mark as Pending"
+msgstr ""
+
+#: admin/views/submissions.php:68
+msgid "Export to CSV"
+msgstr ""
+
+#: admin/views/submissions.php:71
+msgid "Apply"
+msgstr ""
+
+#: admin/views/analytics.php:12
+msgid "Analytics"
+msgstr ""
+
+#: admin/views/analytics.php:22
+msgid "Date Range:"
+msgstr ""
+
+#: admin/views/analytics.php:24
+msgid "Last 7 days"
+msgstr ""
+
+#: admin/views/analytics.php:25
+msgid "Last 30 days"
+msgstr ""
+
+#: admin/views/analytics.php:26
+msgid "Last 90 days"
+msgstr ""
+
+#: admin/views/analytics.php:27
+msgid "Custom Range"
+msgstr ""
+
+#: admin/views/analytics.php:42
+msgid "Update"
+msgstr ""
+
+#: admin/views/analytics.php:55
+msgid "Total Submissions"
+msgstr ""
+
+#: admin/views/analytics.php:65
+msgid "Completed"
+msgstr ""
+
+#: admin/views/analytics.php:75
+msgid "Abandoned"
+msgstr ""
+
+#: admin/views/analytics.php:85
+msgid "Conversion Rate"
+msgstr ""
+
+#: admin/views/analytics.php:95
+msgid "Submissions Over Time"
+msgstr ""
+
+#: admin/views/analytics.php:102
+msgid "Form Type Performance"
+msgstr ""
+
+#: admin/views/analytics.php:112
+msgid "Step Abandonment Analysis"
+msgstr ""
+
+#: admin/views/analytics.php:122
+msgid "Top Performing Forms"
+msgstr ""
+
+#: admin/views/analytics.php:125
+msgid "No form data available for the selected period."
+msgstr ""
+
+#: admin/views/settings.php:25
+msgid "Dry Cleaning Forms Settings"
+msgstr ""
+
+#: admin/views/settings.php:40
+msgid "General Settings"
+msgstr ""
+
+#: admin/views/settings.php:45
+msgid "Login Page URL"
+msgstr ""
+
+#: admin/views/settings.php:50
+msgid "URL to redirect existing customers to login."
+msgstr ""
+
+#: admin/views/settings.php:55
+msgid "Success Message"
+msgstr ""
+
+#: admin/views/settings.php:60
+msgid "Message shown when form submission is successful."
+msgstr ""
+
+#: admin/views/settings.php:65
+msgid "Error Message"
+msgstr ""
+
+#: admin/views/settings.php:70
+msgid "Message shown when form submission fails."
+msgstr ""
+
+#: admin/views/settings.php:75
+msgid "Enable Logging"
+msgstr ""
+
+#: admin/views/settings.php:80
+msgid "Log form submissions and API calls for debugging"
+msgstr ""
+
+#: admin/views/settings.php:87
+msgid "POS System Integration"
+msgstr ""
+
+#: admin/views/settings.php:92
+msgid "Primary POS System"
+msgstr ""
+
+#: admin/views/settings.php:96
+msgid "SMRT"
+msgstr ""
+
+#: admin/views/settings.php:100
+msgid "SPOT"
+msgstr ""
+
+#: admin/views/settings.php:104
+msgid "CleanCloud"
+msgstr ""
+
+#: public/class-public-forms.php:125
+msgid "First Name"
+msgstr ""
+
+#: public/class-public-forms.php:126
+msgid "Last Name"
+msgstr ""
+
+#: public/class-public-forms.php:127
+msgid "Phone Number"
+msgstr ""
+
+#: public/class-public-forms.php:128
+msgid "Email Address"
+msgstr ""
+
+#: public/class-public-forms.php:135
+msgid "How do you plan to use our service?"
+msgstr ""
+
+#: public/class-public-forms.php:136
+msgid "Visit a retail store"
+msgstr ""
+
+#: public/class-public-forms.php:137
+msgid "Use our FREE home pickup & delivery service"
+msgstr ""
+
+#: public/class-public-forms.php:138
+msgid "Not sure yet"
+msgstr ""
+
+#: public/class-public-forms.php:145
+msgid "Street Address"
+msgstr ""
+
+#: public/class-public-forms.php:146
+msgid "Suite/Apartment #"
+msgstr ""
+
+#: public/class-public-forms.php:147
+msgid "City"
+msgstr ""
+
+#: public/class-public-forms.php:148
+msgid "State"
+msgstr ""
+
+#: public/class-public-forms.php:149
+msgid "ZIP Code"
+msgstr ""
+
+#: public/class-public-forms.php:156
+msgid "Card Number"
+msgstr ""
+
+#: public/class-public-forms.php:157
+msgid "Expiration Date"
+msgstr ""
+
+#: public/class-public-forms.php:158
+msgid "Security Code"
+msgstr ""
+
+#: public/class-public-forms.php:159
+msgid "Billing ZIP Code"
+msgstr ""
+
+#: public/class-public-forms.php:165
+msgid "Next"
+msgstr ""
+
+#: public/class-public-forms.php:166
+msgid "Previous"
+msgstr ""
+
+#: public/class-public-forms.php:167
+msgid "Submit"
+msgstr ""
+
+#: includes/class-form-builder.php:85
+msgid "Required field"
+msgstr ""
+
+#: includes/class-form-builder.php:125
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: includes/class-form-builder.php:135
+msgid "Please enter a valid phone number"
+msgstr ""
+
+#: includes/class-webhook-handler.php:45
+msgid "Webhook sent successfully"
+msgstr ""
+
+#: includes/class-webhook-handler.php:55
+msgid "Failed to send webhook"
+msgstr "" 

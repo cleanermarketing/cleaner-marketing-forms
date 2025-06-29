@@ -1,0 +1,64 @@
+# Development
+.DS_Store
+Thumbs.db
+node_modules/
+.sass-cache/
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Dependencies
+vendor/
+composer.lock
+
+# Build artifacts
+dist/
+build/
+*.zip
+*.tar.gz
+
+# Testing
+tests/coverage/
+phpunit.xml
+.phpunit.result.cache
+.phpunit.cache/
+
+# Local config
+update-config.php
+local-config.php
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+.cache/
+
+# OS generated files
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# WordPress specific
+wp-config.php
+advanced-cache.php
+backup-db/
+backups/
+blogs.dir/
+cache/
+upgrade/
+uploads/
+wp-cache-config.php

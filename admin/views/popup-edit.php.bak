@@ -1,0 +1,1229 @@
+<?php
+/**
+ * Popup Edit View
+ *
+ * @package DryCleaningForms
+ * @since 1.0.0
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Get popup data if editing
+$popup = null;
+$is_new = $action === 'new';
+
+if (!$is_new && $popup_id) {
+    $popup = $popup_manager->get_popup($popup_id);
+    if (!$popup) {
+        wp_die(__('Popup not found.', 'dry-cleaning-forms'));
+    }
+}
+
+// Default values
+$defaults = array(
+    'popup_name' => '',
+    'popup_type' => 'modal',
+    'status' => 'draft',
+    'popup_config' => array(
+        'form_id' => '',
+        'auto_close' => false,
+        'auto_close_delay' => 5
+    ),
+    'targeting_rules' => array(
+        'pages' => array(),
+        'users' => array(),
+        'devices' => array(),
+        'schedule' => array()
+    ),
+    'trigger_settings' => array(
+        'type' => 'time_delay',
+        'delay' => 5,
+        'max_displays' => 3
+    ),
+    'design_settings' => array(
+        'width' => '500px',
+        'height' => 'auto',
+        'background_color' => '#ffffff',
+        'text_color' => '#333333',
+        'border_radius' => '8px',
+        'padding' => '30px',
+        'overlay_color' => 'rgba(0,0,0,0.7)',
+        'animation' => 'fadeIn',
+        'close_button' => true,
+        'close_on_overlay' => true
+    )
+);
+
+// Ensure popup_data is always an array
+$popup_data = $popup ? (array) $popup : $defaults;
+
+// Get available forms for dropdown
+$form_builder = new DCF_Form_Builder();
+$available_forms = $form_builder->get_forms();
+
+// Ensure available_forms is an array and handle object/array conversion
+if (!is_array($available_forms)) {
+    $available_forms = array();
+}
+
+// Get trigger types
+$trigger_types = DCF_Popup_Triggers::get_trigger_types();
+
+?>
+
+<div class="dcf-popup-edit">
+    <?php if (isset($success_message) && $success_message): ?>
+        <div class="notice notice-success is-dismissible">
+            <p><?php echo esc_html($success_message); ?></p>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (isset($error_message) && $error_message): ?>
+        <div class="notice notice-error is-dismissible">
+            <p><?php echo esc_html($error_message); ?></p>
+        </div>
+    <?php endif; ?>
+    
+    <form method="post" action="" id="popup-edit-form">
+        <?php wp_nonce_field('dcf_popup_action', 'dcf_popup_nonce'); ?>
+        <input type="hidden" name="popup_action" value="<?php echo $is_new ? 'create' : 'update'; ?>">
+        <?php if (!$is_new): ?>
+            <input type="hidden" name="popup_id" value="<?php echo $popup_id; ?>">
+            <?php if (!empty($popup_data['template_id'])): ?>
+                <input type="hidden" name="template_id" id="template_id" value="<?php echo esc_attr($popup_data['template_id']); ?>">
+            <?php endif; ?>
+        <?php endif; ?>
+        
+        <div class="dcf-popup-header">
+            <div class="dcf-popup-title">
+                <input type="text" name="popup_name" value="<?php echo esc_attr($popup_data['popup_name'] ?? ''); ?>" 
+                       placeholder="<?php _e('Enter popup name...', 'dry-cleaning-forms'); ?>" 
+                       class="dcf-popup-name-input" required>
+            </div>
+            
+            <div class="dcf-popup-actions">
+                <select name="status" class="dcf-status-select">
+                    <option value="draft" <?php selected($popup_data['status'] ?? 'draft', 'draft'); ?>><?php _e('Draft', 'dry-cleaning-forms'); ?></option>
+                    <option value="active" <?php selected($popup_data['status'] ?? '', 'active'); ?>><?php _e('Active', 'dry-cleaning-forms'); ?></option>
+                    <option value="paused" <?php selected($popup_data['status'] ?? '', 'paused'); ?>><?php _e('Paused', 'dry-cleaning-forms'); ?></option>
+                </select>
+                
+                <button type="submit" class="button button-primary">
+                    <?php echo $is_new ? __('Create Popup', 'dry-cleaning-forms') : __('Update Popup', 'dry-cleaning-forms'); ?>
+                </button>
+                
+                <?php if (!$is_new): ?>
+                    <a href="<?php echo admin_url('admin.php?page=dcf-popup-manager&action=preview&popup_id=' . $popup_id); ?>" 
+                       class="button" target="_blank">
+                        <?php _e('Preview', 'dry-cleaning-forms'); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+        
+        <div class="dcf-popup-tabs">
+            <nav class="nav-tab-wrapper">
+                <a href="#general" class="nav-tab nav-tab-active"><?php _e('General', 'dry-cleaning-forms'); ?></a>
+                <a href="#design" class="nav-tab"><?php _e('Design', 'dry-cleaning-forms'); ?></a>
+                <a href="#triggers" class="nav-tab"><?php _e('Triggers', 'dry-cleaning-forms'); ?></a>
+                <a href="#targeting" class="nav-tab"><?php _e('Targeting', 'dry-cleaning-forms'); ?></a>
+                <a href="#content" class="nav-tab"><?php _e('Content', 'dry-cleaning-forms'); ?></a>
+            </nav>
+            
+            <!-- General Tab -->
+            <div id="general" class="dcf-tab-content dcf-tab-active">
+                <div class="dcf-popup-card">
+                    <h3><?php _e('Basic Settings', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="popup_type"><?php _e('Popup Type', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="popup_type" id="popup_type" class="regular-text">
+                                    <option value="modal" <?php selected($popup_data['popup_type'] ?? 'modal', 'modal'); ?>><?php _e('Modal', 'dry-cleaning-forms'); ?></option>
+                                    <option value="sidebar" <?php selected($popup_data['popup_type'] ?? '', 'sidebar'); ?>><?php _e('Sidebar', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bar" <?php selected($popup_data['popup_type'] ?? '', 'bar'); ?>><?php _e('Bar', 'dry-cleaning-forms'); ?></option>
+                                    <option value="multi-step" <?php selected($popup_data['popup_type'] ?? '', 'multi-step'); ?>><?php _e('Multi-Step', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                                <p class="description"><?php _e('Choose the type of popup to display.', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="form_id"><?php _e('Form', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="popup_config[form_id]" id="form_id" class="regular-text">
+                                    <option value=""><?php _e('Select a form...', 'dry-cleaning-forms'); ?></option>
+                                    <?php foreach ($available_forms as $form): ?>
+                                        <?php 
+                                        // Handle both object and array cases
+                                        $form_id = is_object($form) ? $form->id : $form['id'];
+                                        $form_name = is_object($form) ? $form->form_name : $form['form_name'];
+                                        ?>
+                                        <option value="<?php echo esc_attr($form_id); ?>" 
+                                                <?php selected($popup_data['popup_config']['form_id'] ?? '', $form_id); ?>>
+                                            <?php echo esc_html($form_name); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <p class="description"><?php _e('Select the form to display in this popup.', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row"><?php _e('Auto Close', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="popup_config[auto_close]" value="1" 
+                                           <?php checked($popup_data['popup_config']['auto_close'] ?? false); ?>>
+                                    <?php _e('Automatically close popup after delay', 'dry-cleaning-forms'); ?>
+                                </label>
+                                
+                                <div class="dcf-auto-close-delay" style="margin-top: 10px;">
+                                    <label for="auto_close_delay"><?php _e('Delay (seconds):', 'dry-cleaning-forms'); ?></label>
+                                    <input type="number" name="popup_config[auto_close_delay]" id="auto_close_delay" 
+                                           value="<?php echo esc_attr($popup_data['popup_config']['auto_close_delay'] ?? 5); ?>" 
+                                           min="1" max="60" class="small-text">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Design Tab -->
+            <div id="design" class="dcf-tab-content">
+                <div class="dcf-design-layout">
+                    <div class="dcf-design-settings">
+                        <!-- Size & Position Section -->
+                        <div class="dcf-design-section dcf-collapsible" data-section="size-position">
+                            <div class="dcf-section-header">
+                                <span class="dcf-section-icon dashicons dashicons-editor-expand"></span>
+                                <h3><?php _e('Size & Position', 'dry-cleaning-forms'); ?></h3>
+                                <span class="dcf-section-toggle dashicons dashicons-arrow-down"></span>
+                            </div>
+                            <div class="dcf-section-content">
+                                <table class="form-table">
+                        <tr class="dcf-modal-sidebar-only">
+                            <th scope="row">
+                                <label for="width"><?php _e('Width', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[width]" id="width" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['width'] ?? '500px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Popup width (e.g., 500px, 50%, auto)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr class="dcf-modal-sidebar-only">
+                            <th scope="row">
+                                <label for="height"><?php _e('Height', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[height]" id="height" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['height'] ?? 'auto'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Popup height (e.g., 400px, 50%, auto)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="background_color"><?php _e('Background Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[background_color]" id="background_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['background_color'] ?? '#ffffff'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="background_image"><?php _e('Background Image', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <div class="dcf-image-upload">
+                                    <input type="hidden" name="design_settings[background_image]" id="background_image" 
+                                           value="<?php echo esc_attr($popup_data['design_settings']['background_image'] ?? ''); ?>">
+                                    <button type="button" class="button dcf-upload-image" data-target="background_image">
+                                        <?php _e('Select Image', 'dry-cleaning-forms'); ?>
+                                    </button>
+                                    <button type="button" class="button dcf-remove-image" data-target="background_image" 
+                                            style="<?php echo empty($popup_data['design_settings']['background_image']) ? 'display:none;' : ''; ?>">
+                                        <?php _e('Remove Image', 'dry-cleaning-forms'); ?>
+                                    </button>
+                                    <div class="dcf-image-preview" id="background_image_preview">
+                                        <?php if (!empty($popup_data['design_settings']['background_image'])): ?>
+                                            <img src="<?php echo esc_url($popup_data['design_settings']['background_image']); ?>" alt="">
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <p class="description"><?php _e('Upload a background image for the popup', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="background_position"><?php _e('Background Position', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[background_position]" id="background_position" class="regular-text">
+                                    <option value="center center" <?php selected($popup_data['design_settings']['background_position'] ?? 'center center', 'center center'); ?>><?php _e('Center', 'dry-cleaning-forms'); ?></option>
+                                    <option value="top left" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'top left'); ?>><?php _e('Top Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="top center" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'top center'); ?>><?php _e('Top Center', 'dry-cleaning-forms'); ?></option>
+                                    <option value="top right" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'top right'); ?>><?php _e('Top Right', 'dry-cleaning-forms'); ?></option>
+                                    <option value="center left" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'center left'); ?>><?php _e('Center Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="center right" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'center right'); ?>><?php _e('Center Right', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bottom left" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'bottom left'); ?>><?php _e('Bottom Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bottom center" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'bottom center'); ?>><?php _e('Bottom Center', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bottom right" <?php selected($popup_data['design_settings']['background_position'] ?? '', 'bottom right'); ?>><?php _e('Bottom Right', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="background_size"><?php _e('Background Size', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[background_size]" id="background_size" class="regular-text">
+                                    <option value="cover" <?php selected($popup_data['design_settings']['background_size'] ?? 'cover', 'cover'); ?>><?php _e('Cover', 'dry-cleaning-forms'); ?></option>
+                                    <option value="contain" <?php selected($popup_data['design_settings']['background_size'] ?? '', 'contain'); ?>><?php _e('Contain', 'dry-cleaning-forms'); ?></option>
+                                    <option value="auto" <?php selected($popup_data['design_settings']['background_size'] ?? '', 'auto'); ?>><?php _e('Auto', 'dry-cleaning-forms'); ?></option>
+                                    <option value="100% 100%" <?php selected($popup_data['design_settings']['background_size'] ?? '', '100% 100%'); ?>><?php _e('Stretch', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                                <p class="description"><?php _e('How the background image should be sized', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="background_repeat"><?php _e('Background Repeat', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[background_repeat]" id="background_repeat" class="regular-text">
+                                    <option value="no-repeat" <?php selected($popup_data['design_settings']['background_repeat'] ?? 'no-repeat', 'no-repeat'); ?>><?php _e('No Repeat', 'dry-cleaning-forms'); ?></option>
+                                    <option value="repeat" <?php selected($popup_data['design_settings']['background_repeat'] ?? '', 'repeat'); ?>><?php _e('Repeat', 'dry-cleaning-forms'); ?></option>
+                                    <option value="repeat-x" <?php selected($popup_data['design_settings']['background_repeat'] ?? '', 'repeat-x'); ?>><?php _e('Repeat Horizontally', 'dry-cleaning-forms'); ?></option>
+                                    <option value="repeat-y" <?php selected($popup_data['design_settings']['background_repeat'] ?? '', 'repeat-y'); ?>><?php _e('Repeat Vertically', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label><?php _e('Gradient Background', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="design_settings[use_gradient]" id="use_gradient" value="1" 
+                                           <?php checked($popup_data['design_settings']['use_gradient'] ?? false, true); ?>>
+                                    <?php _e('Use gradient background', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <div id="gradient_settings" style="margin-top: 15px; <?php echo empty($popup_data['design_settings']['use_gradient']) ? 'display:none;' : ''; ?>">
+                                    <div style="margin-bottom: 10px;">
+                                        <label for="gradient_type"><?php _e('Gradient Type:', 'dry-cleaning-forms'); ?></label>
+                                        <select name="design_settings[gradient_type]" id="gradient_type" class="regular-text">
+                                            <option value="linear" <?php selected($popup_data['design_settings']['gradient_type'] ?? 'linear', 'linear'); ?>><?php _e('Linear', 'dry-cleaning-forms'); ?></option>
+                                            <option value="radial" <?php selected($popup_data['design_settings']['gradient_type'] ?? '', 'radial'); ?>><?php _e('Radial', 'dry-cleaning-forms'); ?></option>
+                                        </select>
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <label for="gradient_angle"><?php _e('Gradient Angle:', 'dry-cleaning-forms'); ?></label>
+                                        <input type="number" name="design_settings[gradient_angle]" id="gradient_angle" 
+                                               value="<?php echo esc_attr($popup_data['design_settings']['gradient_angle'] ?? '135'); ?>" 
+                                               min="0" max="360" class="small-text"> <?php _e('degrees', 'dry-cleaning-forms'); ?>
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <label for="gradient_color_1"><?php _e('Color 1:', 'dry-cleaning-forms'); ?></label>
+                                        <input type="color" name="design_settings[gradient_color_1]" id="gradient_color_1" 
+                                               value="<?php echo esc_attr($popup_data['design_settings']['gradient_color_1'] ?? '#667eea'); ?>" 
+                                               class="dcf-color-picker">
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <label for="gradient_color_2"><?php _e('Color 2:', 'dry-cleaning-forms'); ?></label>
+                                        <input type="color" name="design_settings[gradient_color_2]" id="gradient_color_2" 
+                                               value="<?php echo esc_attr($popup_data['design_settings']['gradient_color_2'] ?? '#764ba2'); ?>" 
+                                               class="dcf-color-picker">
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <label>
+                                            <input type="checkbox" name="design_settings[gradient_add_third]" id="gradient_add_third" value="1" 
+                                                   <?php checked($popup_data['design_settings']['gradient_add_third'] ?? false, true); ?>>
+                                            <?php _e('Add third color', 'dry-cleaning-forms'); ?>
+                                        </label>
+                                        <div id="gradient_third_color" style="margin-top: 10px; <?php echo empty($popup_data['design_settings']['gradient_add_third']) ? 'display:none;' : ''; ?>">
+                                            <label for="gradient_color_3"><?php _e('Color 3:', 'dry-cleaning-forms'); ?></label>
+                                            <input type="color" name="design_settings[gradient_color_3]" id="gradient_color_3" 
+                                                   value="<?php echo esc_attr($popup_data['design_settings']['gradient_color_3'] ?? '#f093fb'); ?>" 
+                                                   class="dcf-color-picker">
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="description"><?php _e('Create a gradient background for your popup', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="text_color"><?php _e('Text Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[text_color]" id="text_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['text_color'] ?? '#333333'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="font_size"><?php _e('Font Size', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[font_size]" id="font_size" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['font_size'] ?? '16px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Base font size (e.g., 16px, 1.1rem)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="heading_font_size"><?php _e('Heading Font Size', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[heading_font_size]" id="heading_font_size" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['heading_font_size'] ?? '24px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Heading font size (e.g., 24px, 1.5rem)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="font_weight"><?php _e('Font Weight', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[font_weight]" id="font_weight" class="regular-text">
+                                    <option value="300" <?php selected($popup_data['design_settings']['font_weight'] ?? '', '300'); ?>><?php _e('Light (300)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="400" <?php selected($popup_data['design_settings']['font_weight'] ?? '400', '400'); ?>><?php _e('Normal (400)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="500" <?php selected($popup_data['design_settings']['font_weight'] ?? '', '500'); ?>><?php _e('Medium (500)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="600" <?php selected($popup_data['design_settings']['font_weight'] ?? '', '600'); ?>><?php _e('Semi Bold (600)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="700" <?php selected($popup_data['design_settings']['font_weight'] ?? '', '700'); ?>><?php _e('Bold (700)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="900" <?php selected($popup_data['design_settings']['font_weight'] ?? '', '900'); ?>><?php _e('Black (900)', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="heading_font_weight"><?php _e('Heading Font Weight', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[heading_font_weight]" id="heading_font_weight" class="regular-text">
+                                    <option value="300" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '', '300'); ?>><?php _e('Light (300)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="400" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '', '400'); ?>><?php _e('Normal (400)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="500" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '', '500'); ?>><?php _e('Medium (500)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="600" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '', '600'); ?>><?php _e('Semi Bold (600)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="700" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '700', '700'); ?>><?php _e('Bold (700)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="900" <?php selected($popup_data['design_settings']['heading_font_weight'] ?? '', '900'); ?>><?php _e('Black (900)', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="line_height"><?php _e('Line Height', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[line_height]" id="line_height" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['line_height'] ?? '1.6'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Line height multiplier (e.g., 1.6, 2)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="text_align"><?php _e('Text Alignment', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[text_align]" id="text_align" class="regular-text">
+                                    <option value="left" <?php selected($popup_data['design_settings']['text_align'] ?? '', 'left'); ?>><?php _e('Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="center" <?php selected($popup_data['design_settings']['text_align'] ?? 'center', 'center'); ?>><?php _e('Center', 'dry-cleaning-forms'); ?></option>
+                                    <option value="right" <?php selected($popup_data['design_settings']['text_align'] ?? '', 'right'); ?>><?php _e('Right', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr class="dcf-form-field-settings">
+                            <th scope="row" colspan="2">
+                                <h3><?php _e('Form Field Styling', 'dry-cleaning-forms'); ?></h3>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_style"><?php _e('Field Style', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[field_style]" id="field_style" class="regular-text">
+                                    <option value="modern" <?php selected($popup_data['design_settings']['field_style'] ?? 'modern', 'modern'); ?>><?php _e('Modern (Rounded)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="classic" <?php selected($popup_data['design_settings']['field_style'] ?? '', 'classic'); ?>><?php _e('Classic (Square)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="underline" <?php selected($popup_data['design_settings']['field_style'] ?? '', 'underline'); ?>><?php _e('Underline Only', 'dry-cleaning-forms'); ?></option>
+                                    <option value="floating" <?php selected($popup_data['design_settings']['field_style'] ?? '', 'floating'); ?>><?php _e('Floating Labels', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_border_color"><?php _e('Field Border Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[field_border_color]" id="field_border_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_border_color'] ?? '#e1e8ed'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_focus_color"><?php _e('Field Focus Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[field_focus_color]" id="field_focus_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_focus_color'] ?? '#3498db'); ?>" 
+                                       class="dcf-color-picker">
+                                <p class="description"><?php _e('Border color when field is focused', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_bg_color"><?php _e('Field Background Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[field_bg_color]" id="field_bg_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_bg_color'] ?? '#ffffff'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_text_color"><?php _e('Field Text Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[field_text_color]" id="field_text_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_text_color'] ?? '#2c3e50'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_padding"><?php _e('Field Padding', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[field_padding]" id="field_padding" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_padding'] ?? '16px 20px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Padding inside form fields (e.g., 16px 20px)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_border_radius"><?php _e('Field Border Radius', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[field_border_radius]" id="field_border_radius" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_border_radius'] ?? '10px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Border radius for form fields (e.g., 10px)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="use_field_icons"><?php _e('Use Field Icons', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="design_settings[use_field_icons]" id="use_field_icons" value="1" 
+                                           <?php checked($popup_data['design_settings']['use_field_icons'] ?? false, true); ?>>
+                                    <?php _e('Show icons inside form fields', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <p class="description"><?php _e('Display icons for email, phone, and other field types', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr class="dcf-layout-settings">
+                            <th scope="row" colspan="2">
+                                <h3><?php _e('Layout Options', 'dry-cleaning-forms'); ?></h3>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="form_layout"><?php _e('Form Layout', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[form_layout]" id="form_layout" class="regular-text">
+                                    <option value="single" <?php selected($popup_data['design_settings']['form_layout'] ?? 'single', 'single'); ?>><?php _e('Single Column', 'dry-cleaning-forms'); ?></option>
+                                    <option value="two-column" <?php selected($popup_data['design_settings']['form_layout'] ?? '', 'two-column'); ?>><?php _e('Two Column', 'dry-cleaning-forms'); ?></option>
+                                    <option value="inline" <?php selected($popup_data['design_settings']['form_layout'] ?? '', 'inline'); ?>><?php _e('Inline Fields', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                                <p class="description"><?php _e('Choose how form fields are arranged', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="column_gap"><?php _e('Column Gap', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[column_gap]" id="column_gap" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['column_gap'] ?? '20px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Space between columns in multi-column layouts', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="field_spacing"><?php _e('Field Spacing', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[field_spacing]" id="field_spacing" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['field_spacing'] ?? '20px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Vertical space between form fields', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label><?php _e('Full Width Fields', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <p class="description" style="margin-bottom: 10px;"><?php _e('Select which fields should span full width in multi-column layouts:', 'dry-cleaning-forms'); ?></p>
+                                <label>
+                                    <input type="checkbox" name="design_settings[full_width_fields][]" value="message" 
+                                           <?php checked(in_array('message', $popup_data['design_settings']['full_width_fields'] ?? ['message', 'comments']), true); ?>>
+                                    <?php _e('Message/Textarea fields', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="design_settings[full_width_fields][]" value="email" 
+                                           <?php checked(in_array('email', $popup_data['design_settings']['full_width_fields'] ?? []), true); ?>>
+                                    <?php _e('Email fields', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="design_settings[full_width_fields][]" value="submit" 
+                                           <?php checked(in_array('submit', $popup_data['design_settings']['full_width_fields'] ?? ['submit']), true); ?>>
+                                    <?php _e('Submit button', 'dry-cleaning-forms'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="border_radius"><?php _e('Popup Border Radius', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[border_radius]" id="border_radius" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['border_radius'] ?? '8px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Border radius (e.g., 8px, 0)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="padding"><?php _e('Padding', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[padding]" id="padding" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['padding'] ?? '30px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Internal padding (e.g., 30px, 20px 30px)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr class="dcf-modal-only">
+                            <th scope="row">
+                                <label for="overlay_color"><?php _e('Overlay Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[overlay_color]" id="overlay_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['overlay_color'] ?? 'rgba(0,0,0,0.7)'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Background overlay color (e.g., rgba(0,0,0,0.7))', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="animation"><?php _e('Animation', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[animation]" id="animation" class="regular-text">
+                                    <option value="fadeIn" <?php selected($popup_data['design_settings']['animation'] ?? 'fadeIn', 'fadeIn'); ?>><?php _e('Fade In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInUp" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInUp'); ?>><?php _e('Slide In Up', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInDown" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInDown'); ?>><?php _e('Slide In Down', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInLeft" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInLeft'); ?>><?php _e('Slide In Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInRight" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInRight'); ?>><?php _e('Slide In Right', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row" colspan="2">
+                                <h4 style="margin: 20px 0 10px 0;"><?php _e('Button Styling', 'dry-cleaning-forms'); ?></h4>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_bg_color"><?php _e('Button Background Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[button_bg_color]" id="button_bg_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_bg_color'] ?? '#2271b1'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_text_color"><?php _e('Button Text Color', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[button_text_color]" id="button_text_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_text_color'] ?? '#ffffff'); ?>" 
+                                       class="dcf-color-picker">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_border_radius"><?php _e('Button Border Radius', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[button_border_radius]" id="button_border_radius" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_border_radius'] ?? '4px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Border radius for buttons (e.g., 4px, 50px for pill shape)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_padding"><?php _e('Button Padding', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[button_padding]" id="button_padding" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_padding'] ?? '12px 24px'); ?>" 
+                                       class="regular-text">
+                                <p class="description"><?php _e('Padding inside buttons (e.g., 12px 24px)', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_font_size"><?php _e('Button Font Size', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="text" name="design_settings[button_font_size]" id="button_font_size" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_font_size'] ?? '16px'); ?>" 
+                                       class="regular-text">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_font_weight"><?php _e('Button Font Weight', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[button_font_weight]" id="button_font_weight" class="regular-text">
+                                    <option value="400" <?php selected($popup_data['design_settings']['button_font_weight'] ?? '', '400'); ?>><?php _e('Normal (400)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="500" <?php selected($popup_data['design_settings']['button_font_weight'] ?? '', '500'); ?>><?php _e('Medium (500)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="600" <?php selected($popup_data['design_settings']['button_font_weight'] ?? '600', '600'); ?>><?php _e('Semi Bold (600)', 'dry-cleaning-forms'); ?></option>
+                                    <option value="700" <?php selected($popup_data['design_settings']['button_font_weight'] ?? '', '700'); ?>><?php _e('Bold (700)', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_text_transform"><?php _e('Button Text Transform', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[button_text_transform]" id="button_text_transform" class="regular-text">
+                                    <option value="none" <?php selected($popup_data['design_settings']['button_text_transform'] ?? 'none', 'none'); ?>><?php _e('None', 'dry-cleaning-forms'); ?></option>
+                                    <option value="uppercase" <?php selected($popup_data['design_settings']['button_text_transform'] ?? '', 'uppercase'); ?>><?php _e('UPPERCASE', 'dry-cleaning-forms'); ?></option>
+                                    <option value="lowercase" <?php selected($popup_data['design_settings']['button_text_transform'] ?? '', 'lowercase'); ?>><?php _e('lowercase', 'dry-cleaning-forms'); ?></option>
+                                    <option value="capitalize" <?php selected($popup_data['design_settings']['button_text_transform'] ?? '', 'capitalize'); ?>><?php _e('Capitalize', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_hover_bg_color"><?php _e('Button Hover Background', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="color" name="design_settings[button_hover_bg_color]" id="button_hover_bg_color" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['button_hover_bg_color'] ?? '#135e96'); ?>" 
+                                       class="dcf-color-picker">
+                                <p class="description"><?php _e('Background color when hovering over button', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="button_shadow"><?php _e('Button Shadow', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[button_shadow]" id="button_shadow" class="regular-text">
+                                    <option value="none" <?php selected($popup_data['design_settings']['button_shadow'] ?? '', 'none'); ?>><?php _e('None', 'dry-cleaning-forms'); ?></option>
+                                    <option value="small" <?php selected($popup_data['design_settings']['button_shadow'] ?? 'small', 'small'); ?>><?php _e('Small', 'dry-cleaning-forms'); ?></option>
+                                    <option value="medium" <?php selected($popup_data['design_settings']['button_shadow'] ?? '', 'medium'); ?>><?php _e('Medium', 'dry-cleaning-forms'); ?></option>
+                                    <option value="large" <?php selected($popup_data['design_settings']['button_shadow'] ?? '', 'large'); ?>><?php _e('Large', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row"><?php _e('Close Options', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="design_settings[close_button]" value="1" 
+                                           <?php checked($popup_data['design_settings']['close_button'] ?? true); ?>>
+                                    <?php _e('Show close button', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label class="dcf-modal-only">
+                                    <input type="checkbox" name="design_settings[close_on_overlay]" value="1" 
+                                           <?php checked($popup_data['design_settings']['close_on_overlay'] ?? true); ?>>
+                                    <?php _e('Close when clicking overlay', 'dry-cleaning-forms'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                        
+                        <tr class="dcf-animation-settings">
+                            <th scope="row" colspan="2">
+                                <h3><?php _e('Animation & Effects', 'dry-cleaning-forms'); ?></h3>
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="animation"><?php _e('Entrance Animation', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[animation]" id="animation" class="regular-text">
+                                    <option value="fadeIn" <?php selected($popup_data['design_settings']['animation'] ?? 'fadeIn', 'fadeIn'); ?>><?php _e('Fade In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInUp" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInUp'); ?>><?php _e('Slide In Up', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInDown" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInDown'); ?>><?php _e('Slide In Down', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInLeft" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInLeft'); ?>><?php _e('Slide In Left', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideInRight" <?php selected($popup_data['design_settings']['animation'] ?? '', 'slideInRight'); ?>><?php _e('Slide In Right', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bounceIn" <?php selected($popup_data['design_settings']['animation'] ?? '', 'bounceIn'); ?>><?php _e('Bounce In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="zoomIn" <?php selected($popup_data['design_settings']['animation'] ?? '', 'zoomIn'); ?>><?php _e('Zoom In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="rotateIn" <?php selected($popup_data['design_settings']['animation'] ?? '', 'rotateIn'); ?>><?php _e('Rotate In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="flipIn" <?php selected($popup_data['design_settings']['animation'] ?? '', 'flipIn'); ?>><?php _e('Flip In', 'dry-cleaning-forms'); ?></option>
+                                    <option value="rubberBand" <?php selected($popup_data['design_settings']['animation'] ?? '', 'rubberBand'); ?>><?php _e('Rubber Band', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="animation_duration"><?php _e('Animation Duration', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="number" name="design_settings[animation_duration]" id="animation_duration" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['animation_duration'] ?? '500'); ?>" 
+                                       min="100" max="2000" step="100" class="small-text"> <?php _e('milliseconds', 'dry-cleaning-forms'); ?>
+                                <p class="description"><?php _e('How long the entrance animation takes', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="animation_delay"><?php _e('Animation Delay', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="number" name="design_settings[animation_delay]" id="animation_delay" 
+                                       value="<?php echo esc_attr($popup_data['design_settings']['animation_delay'] ?? '0'); ?>" 
+                                       min="0" max="5000" step="100" class="small-text"> <?php _e('milliseconds', 'dry-cleaning-forms'); ?>
+                                <p class="description"><?php _e('Delay before animation starts', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label><?php _e('Micro-interactions', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="design_settings[hover_effects]" value="1" 
+                                           <?php checked($popup_data['design_settings']['hover_effects'] ?? true, true); ?>>
+                                    <?php _e('Enable hover effects on interactive elements', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="design_settings[shake_on_error]" value="1" 
+                                           <?php checked($popup_data['design_settings']['shake_on_error'] ?? true, true); ?>>
+                                    <?php _e('Shake animation on form errors', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="design_settings[pulse_cta]" value="1" 
+                                           <?php checked($popup_data['design_settings']['pulse_cta'] ?? false, true); ?>>
+                                    <?php _e('Pulse effect on call-to-action button', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="design_settings[confetti_on_success]" value="1" 
+                                           <?php checked($popup_data['design_settings']['confetti_on_success'] ?? false, true); ?>>
+                                    <?php _e('Confetti animation on form success', 'dry-cleaning-forms'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="exit_animation"><?php _e('Exit Animation', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="design_settings[exit_animation]" id="exit_animation" class="regular-text">
+                                    <option value="fadeOut" <?php selected($popup_data['design_settings']['exit_animation'] ?? 'fadeOut', 'fadeOut'); ?>><?php _e('Fade Out', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideOutUp" <?php selected($popup_data['design_settings']['exit_animation'] ?? '', 'slideOutUp'); ?>><?php _e('Slide Out Up', 'dry-cleaning-forms'); ?></option>
+                                    <option value="slideOutDown" <?php selected($popup_data['design_settings']['exit_animation'] ?? '', 'slideOutDown'); ?>><?php _e('Slide Out Down', 'dry-cleaning-forms'); ?></option>
+                                    <option value="zoomOut" <?php selected($popup_data['design_settings']['exit_animation'] ?? '', 'zoomOut'); ?>><?php _e('Zoom Out', 'dry-cleaning-forms'); ?></option>
+                                    <option value="bounceOut" <?php selected($popup_data['design_settings']['exit_animation'] ?? '', 'bounceOut'); ?>><?php _e('Bounce Out', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Real-time Preview -->
+                    <div class="dcf-design-preview">
+                        <div class="dcf-popup-card">
+                            <h3><?php _e('Live Preview', 'dry-cleaning-forms'); ?></h3>
+                            <div class="dcf-popup-preview-container">
+                                <div id="design-popup-preview">
+                                    <div class="dcf-preview-loading">
+                                        <?php _e('Loading preview...', 'dry-cleaning-forms'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Triggers Tab -->
+            <div id="triggers" class="dcf-tab-content">
+                <div class="dcf-popup-card">
+                    <h3><?php _e('Trigger Settings', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="trigger_type"><?php _e('Trigger Type', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <select name="trigger_settings[type]" id="trigger_type" class="regular-text">
+                                    <?php foreach ($trigger_types as $type => $config): ?>
+                                        <option value="<?php echo esc_attr($type); ?>" 
+                                                <?php selected($popup_data['trigger_settings']['type'] ?? 'time_delay', $type); ?>>
+                                            <?php echo esc_html($config['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <p class="description dcf-trigger-description"></p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="max_displays"><?php _e('Maximum Displays', 'dry-cleaning-forms'); ?></label>
+                            </th>
+                            <td>
+                                <input type="number" name="trigger_settings[max_displays]" id="max_displays" 
+                                       value="<?php echo esc_attr($popup_data['trigger_settings']['max_displays'] ?? 3); ?>" 
+                                       min="1" max="20" class="small-text">
+                                <p class="description"><?php _e('Maximum number of times to show this popup to a user.', 'dry-cleaning-forms'); ?></p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Dynamic trigger settings will be populated by JavaScript -->
+                        <tbody id="trigger-specific-settings">
+                            <!-- Populated by JavaScript based on trigger type -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Targeting Tab -->
+            <div id="targeting" class="dcf-tab-content">
+                <div class="dcf-popup-card">
+                    <h3><?php _e('Page Targeting', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><?php _e('Show On', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <label>
+                                    <input type="radio" name="targeting_rules[pages][mode]" value="all" 
+                                           <?php checked(($popup_data['targeting_rules']['pages']['mode'] ?? 'all'), 'all'); ?>>
+                                    <?php _e('All pages', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="radio" name="targeting_rules[pages][mode]" value="specific" 
+                                           <?php checked(($popup_data['targeting_rules']['pages']['mode'] ?? ''), 'specific'); ?>>
+                                    <?php _e('Specific pages', 'dry-cleaning-forms'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="dcf-popup-card">
+                    <h3><?php _e('User Targeting', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><?php _e('Login Status', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <select name="targeting_rules[users][login_status]" class="regular-text">
+                                    <option value=""><?php _e('All users', 'dry-cleaning-forms'); ?></option>
+                                    <option value="logged_in" <?php selected($popup_data['targeting_rules']['users']['login_status'] ?? '', 'logged_in'); ?>><?php _e('Logged in users only', 'dry-cleaning-forms'); ?></option>
+                                    <option value="logged_out" <?php selected($popup_data['targeting_rules']['users']['login_status'] ?? '', 'logged_out'); ?>><?php _e('Logged out users only', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row"><?php _e('Visitor Type', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <select name="targeting_rules[users][visitor_type]" class="regular-text">
+                                    <option value=""><?php _e('All visitors', 'dry-cleaning-forms'); ?></option>
+                                    <option value="new" <?php selected($popup_data['targeting_rules']['users']['visitor_type'] ?? '', 'new'); ?>><?php _e('New visitors only', 'dry-cleaning-forms'); ?></option>
+                                    <option value="returning" <?php selected($popup_data['targeting_rules']['users']['visitor_type'] ?? '', 'returning'); ?>><?php _e('Returning visitors only', 'dry-cleaning-forms'); ?></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="dcf-popup-card">
+                    <h3><?php _e('Device Targeting', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><?php _e('Device Types', 'dry-cleaning-forms'); ?></th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="targeting_rules[devices][types][]" value="desktop" 
+                                           <?php checked(in_array('desktop', $popup_data['targeting_rules']['devices']['types'] ?? array('desktop', 'mobile'))); ?>>
+                                    <?php _e('Desktop', 'dry-cleaning-forms'); ?>
+                                </label>
+                                <br>
+                                <label>
+                                    <input type="checkbox" name="targeting_rules[devices][types][]" value="mobile" 
+                                           <?php checked(in_array('mobile', $popup_data['targeting_rules']['devices']['types'] ?? array('desktop', 'mobile'))); ?>>
+                                    <?php _e('Mobile', 'dry-cleaning-forms'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Content Tab -->
+            <div id="content" class="dcf-tab-content">
+                <div class="dcf-popup-card">
+                    <h3><?php _e('Popup Preview', 'dry-cleaning-forms'); ?></h3>
+                    
+                    <div class="dcf-popup-preview-container">
+                        <div id="popup-preview">
+                            <?php _e('Select a form to see preview...', 'dry-cleaning-forms'); ?>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="button" id="refresh-preview">
+                        <?php _e('Refresh Preview', 'dry-cleaning-forms'); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+.dcf-popup-edit {
+    max-width: 1200px;
+}
+
+.dcf-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.dcf-popup-name-input {
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+    background: none;
+    width: 100%;
+    max-width: 500px;
+}
+
+.dcf-popup-name-input:focus {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
+}
+
+.dcf-popup-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dcf-status-select {
+    min-width: 100px;
+}
+
+.dcf-popup-tabs {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+}
+
+.dcf-tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.dcf-tab-content.dcf-tab-active {
+    display: block;
+}
+
+.dcf-popup-card {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.dcf-popup-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.dcf-color-picker {
+    width: 60px;
+    height: 30px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+}
+
+.dcf-popup-preview-container {
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    background: #f6f7f7;
+    margin-bottom: 15px;
+    min-height: 200px;
+}
+
+#popup-preview {
+    background: #fff;
+    border-radius: 4px;
+    padding: 15px;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+/* Design tab two-column layout */
+.dcf-design-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.dcf-design-settings {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.dcf-design-preview {
+    position: sticky;
+    top: 32px;
+}
+
+#design-popup-preview {
+    min-height: 400px;
+    position: relative;
+    background: #f0f0f1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dcf-preview-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+}
+
+/* Preview iframe */
+#design-popup-preview iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+    .dcf-design-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-design-preview {
+        position: static;
+        order: -1; /* Move preview to top on smaller screens */
+    }
+}
+</style> 

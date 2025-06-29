@@ -1,0 +1,1230 @@
+/**
+ * Dry Cleaning Forms - Public Styles
+ */
+
+/* Form Container */
+.dcf-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dcf-form-title {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+}
+
+.dcf-form-description {
+    margin: 0 0 25px 0;
+    color: #666;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Form Fields */
+.dcf-field {
+    margin-bottom: 20px;
+}
+
+.dcf-field-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dcf-required {
+    color: #e74c3c;
+}
+
+.dcf-field-input {
+    position: relative;
+}
+
+.dcf-input,
+.dcf-textarea,
+.dcf-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.dcf-input:focus,
+.dcf-textarea:focus,
+.dcf-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.dcf-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.dcf-field-description {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Radio and Checkbox Fields */
+.dcf-radio-option,
+.dcf-checkbox-option {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dcf-radio,
+.dcf-checkbox {
+    margin-right: 10px;
+    width: auto;
+}
+
+.dcf-radio-option label,
+.dcf-checkbox-option label {
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Address Field */
+.dcf-address-field {
+    margin-bottom: 20px;
+}
+
+.dcf-address-field .dcf-address-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-top: 5px;
+}
+
+.dcf-address-field .dcf-address-row:first-child {
+    padding-top: 0;
+}
+
+.dcf-address-field .dcf-address-row:last-child {
+    margin-bottom: 0;
+}
+
+.dcf-address-line1,
+.dcf-address-line2 {
+    flex: 1;
+}
+
+.dcf-address-city {
+    flex: 2;
+}
+
+.dcf-address-state {
+    flex: 1;
+}
+
+.dcf-address-zip {
+    flex: 1;
+}
+
+.dcf-address-field input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.dcf-address-field input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Submit Button */
+.dcf-form-submit {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.dcf-submit-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+}
+
+/* Don't override custom submit buttons that have inline styles */
+.dcf-submit-button:not(.dcf-custom-submit) {
+    background: #3498db;
+}
+
+.dcf-submit-button:hover {
+    background: #2980b9;
+}
+
+/* Don't change background on hover for custom submit buttons */
+.dcf-submit-button.dcf-custom-submit:hover {
+    /* Hover effect handled by opacity in custom submit section */
+    background: initial;
+}
+
+.dcf-submit-button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Custom submit button field */
+.dcf-field-submit {
+    margin-top: 30px;
+}
+
+.dcf-field-submit .dcf-field-input {
+    margin-top: 0;
+    /* Reset any button-like styling on the wrapper */
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+/* Ensure custom submit buttons don't have double styling */
+.dcf-custom-submit {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Fix for any div wrapper that might look like a button */
+.dcf-field-submit div[style*="text-align"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    cursor: default !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+/* Ensure only the actual button element has button styling */
+.dcf-field-submit button.dcf-submit-button {
+    /* Button keeps its styles */
+    cursor: pointer !important;
+}
+
+/* Signup Form Specific Styles */
+.dcf-signup-form-container {
+    max-width: 700px;
+}
+
+.dcf-signup-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.dcf-progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.dcf-progress-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    right: -40%;
+    height: 2px;
+    background: #e1e5e9;
+    z-index: 1;
+}
+
+.dcf-progress-step.active:not(:last-child)::after,
+.dcf-progress-step.completed:not(:last-child)::after {
+    background: #3498db;
+}
+
+.dcf-step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e1e5e9;
+    color: #7f8c8d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.dcf-progress-step.active .dcf-step-number {
+    background: #3498db;
+    color: white;
+}
+
+.dcf-progress-step.completed .dcf-step-number {
+    background: #27ae60;
+    color: white;
+}
+
+.dcf-step-label {
+    font-size: 14px;
+    color: #7f8c8d;
+    text-align: center;
+}
+
+.dcf-progress-step.active .dcf-step-label {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.dcf-progress-step.completed .dcf-step-label {
+    color: #27ae60;
+}
+
+/* Step Content */
+.dcf-signup-step {
+    display: none;
+}
+
+.dcf-signup-step.active {
+    display: block;
+}
+
+.dcf-step-title {
+    margin: 0 0 25px 0;
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+}
+
+/* Service Selection */
+.dcf-service-options {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.dcf-service-option {
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dcf-service-option:hover {
+    border-color: #3498db;
+    background: #f8f9fa;
+}
+
+.dcf-service-option input[type="radio"] {
+    display: none;
+}
+
+.dcf-service-option.selected {
+    border-color: #3498db;
+    background: #ebf3fd;
+    box-shadow: 0 0 0 1px #3498db;
+    position: relative;
+}
+
+.dcf-service-option.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #3498db;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 10;
+}
+
+/* Alternative approach using a span element */
+.dcf-service-option .dcf-checkmark {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #3498db;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 10;
+}
+
+.dcf-service-option.selected .dcf-checkmark {
+    display: flex;
+}
+
+.dcf-service-option input[type="radio"]:checked + .dcf-service-label {
+    color: #3498db;
+}
+
+.dcf-service-option input[type="radio"]:checked + .dcf-service-label .dcf-service-title {
+    color: #3498db;
+    font-weight: 700;
+}
+
+.dcf-service-option.selected .dcf-service-title {
+    color: #3498db;
+    font-weight: 700;
+}
+
+.dcf-service-label {
+    display: block;
+    cursor: pointer;
+}
+
+.dcf-service-title {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.dcf-service-description {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Payment Section */
+.dcf-pickup-section,
+.dcf-payment-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.dcf-pickup-section h4,
+.dcf-payment-section h4 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.dcf-payment-note {
+    margin: 0 0 20px 0;
+    padding: 10px 15px;
+    background: #e8f5e8;
+    border-left: 4px solid #27ae60;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.dcf-card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .dcf-card-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Contact Form */
+.dcf-contact-form-container {
+    max-width: 500px;
+}
+
+/* Opt-in Form */
+.dcf-optin-form-container {
+    max-width: 400px;
+    text-align: center;
+}
+
+.dcf-optin-title {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.dcf-optin-description {
+    margin: 0 0 20px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.dcf-optin-fields {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dcf-optin-inline .dcf-optin-fields {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+}
+
+.dcf-optin-inline .dcf-form-submit {
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .dcf-optin-inline .dcf-optin-fields {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-optin-inline .dcf-form-submit {
+        margin-top: 20px;
+    }
+}
+
+/* Loading States */
+.dcf-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.dcf-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dcf-loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #3498db;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: dcf-spin 1s linear infinite;
+    z-index: 10;
+}
+
+@keyframes dcf-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Messages */
+.dcf-message {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.dcf-message-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.dcf-message-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.dcf-message-info {
+    background: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+}
+
+/* Field Validation */
+.dcf-field.dcf-field-error .dcf-input,
+.dcf-field.dcf-field-error .dcf-textarea,
+.dcf-field.dcf-field-error .dcf-select {
+    border-color: #e74c3c;
+}
+
+.dcf-field-error-message {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dcf-form-container {
+        margin: 0 15px;
+        padding: 15px;
+    }
+    
+    .dcf-signup-progress {
+        padding: 0 10px;
+    }
+    
+    .dcf-progress-step {
+        font-size: 12px;
+    }
+    
+    .dcf-step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .dcf-service-option {
+        padding: 15px;
+    }
+    
+    .dcf-service-title {
+        font-size: 16px;
+    }
+    
+    .dcf-name-field .dcf-name-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dcf-address-field .dcf-address-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Accessibility */
+.dcf-input:focus,
+.dcf-textarea:focus,
+.dcf-select:focus,
+.dcf-submit-button:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+.dcf-service-option:focus-within {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .dcf-form-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .dcf-submit-button {
+        display: none;
+    }
+}
+
+/* New Field Types Styles */
+
+/* Name Field */
+.dcf-name-field .dcf-name-row {
+    display: flex;
+    gap: 15px;
+}
+
+.dcf-name-first,
+.dcf-name-last {
+    flex: 1;
+}
+
+.dcf-name-first input,
+.dcf-name-last input {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .dcf-name-field .dcf-name-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Terms & Conditions Field */
+.dcf-terms-field {
+    margin-bottom: 20px;
+}
+
+.dcf-terms-field label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.dcf-terms-field input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    width: 16px !important;
+    height: 16px !important;
+    padding: 0 !important;
+    border: 2px solid #e1e5e9;
+    border-radius: 3px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.dcf-terms-field input[type="checkbox"]:checked {
+    background: #3498db;
+    border-color: #3498db;
+}
+
+.dcf-terms-field a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.dcf-terms-field a:hover {
+    text-decoration: underline;
+}
+
+/* Fix checkbox and radio button sizing globally */
+.dcf-field input[type="checkbox"],
+.dcf-field input[type="radio"],
+.dcf-checkbox,
+.dcf-radio {
+    width: 16px !important;
+    height: 16px !important;
+    padding: 0 !important;
+    margin: 0 10px 0 0 !important;
+    border: 2px solid #e1e5e9;
+    background: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.dcf-field input[type="radio"] {
+    border-radius: 50%;
+}
+
+.dcf-field input[type="checkbox"]:checked,
+.dcf-field input[type="radio"]:checked {
+    background: #3498db;
+    border-color: #3498db;
+}
+
+/* Checkbox and Radio Option Labels */
+.dcf-checkbox-option label,
+.dcf-radio-option label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+/* Hidden Field */
+.dcf-hidden-field {
+    display: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .dcf-form-container {
+        padding: 15px;
+    }
+    
+    .dcf-field {
+        margin-bottom: 15px;
+    }
+    
+    .dcf-input,
+    .dcf-textarea,
+    .dcf-select {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .dcf-submit-button {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+    }
+}
+
+/* Custom Submit Button Styles */
+.dcf-custom-submit {
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+/* Ensure custom submit buttons with inline styles keep their background color */
+.dcf-submit-button.dcf-custom-submit[style*="background-color"] {
+    /* Don't override inline background-color */
+    background: initial !important;
+}
+
+/* Additional specificity for form context */
+.dcf-form .dcf-submit-button.dcf-custom-submit[style*="background-color"],
+.dcf-form-container .dcf-submit-button.dcf-custom-submit[style*="background-color"] {
+    background: initial !important;
+}
+
+/* Fix hover state for custom submit buttons */
+.dcf-submit-button.dcf-custom-submit:hover {
+    opacity: 0.9;
+    /* Don't change background color on hover for custom styled buttons */
+    background-color: inherit;
+}
+
+/* Pickup scheduling specific styles */
+.dcf-pickup-scheduler .dcf-field {
+    margin-bottom: 20px;
+}
+
+#dcf_time_slot_field {
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+#dcf_time_slot_field.show,
+#dcf_time_slot_field[style*="display: block"] {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Ensure select dropdowns are properly visible */
+.dcf-pickup-scheduler select.dcf-select {
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+    background-image: none;
+}
+
+/* Debug styling to ensure visibility */
+#dcf_time_slot {
+    min-height: 42px;
+}
+
+.dcf-custom-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dcf-custom-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dcf-custom-submit:focus {
+    outline: 2px solid rgba(34, 113, 177, 0.5);
+    outline-offset: 2px;
+}
+
+.dcf-custom-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive custom submit buttons */
+@media (max-width: 768px) {
+    .dcf-custom-submit {
+        width: 100% !important;
+        min-width: auto !important;
+        padding: 15px 20px !important;
+        font-size: 16px !important;
+    }
+} 
+
+/* Multi-step Form Styles */
+.dcf-multi-step-form .dcf-form-steps {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.dcf-multi-step-form .dcf-form-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #e1e5e9;
+    z-index: 0;
+}
+
+.dcf-multi-step-form .dcf-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.dcf-multi-step-form .dcf-step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background: #e1e5e9;
+    color: #666;
+    border-radius: 50%;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.dcf-multi-step-form .dcf-step.active .dcf-step-number {
+    background: #3498db;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.dcf-multi-step-form .dcf-step.completed .dcf-step-number {
+    background: #27ae60;
+    color: #fff;
+}
+
+.dcf-multi-step-form .dcf-step-title {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.dcf-multi-step-form .dcf-step.active .dcf-step-title {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.dcf-multi-step-form .dcf-step-content {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dcf-step-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.dcf-prev-step,
+.dcf-next-step {
+    background: #e1e5e9;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dcf-prev-step:hover,
+.dcf-next-step:hover {
+    background: #d1d5d9;
+}
+
+.dcf-next-step {
+    background: #3498db;
+    color: #fff;
+    margin-left: auto;
+}
+
+.dcf-next-step:hover {
+    background: #2980b9;
+}
+
+/* Success Message */
+.dcf-success-message {
+    text-align: center;
+    padding: 40px;
+}
+
+.dcf-success-message h3 {
+    color: #27ae60;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.dcf-success-message p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.dcf-login-instructions {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.dcf-login-instructions h4 {
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+/* Alert Messages */
+.dcf-alert {
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.dcf-alert-info {
+    background: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+}
+
+.dcf-alert-info h4 {
+    margin: 0 0 10px 0;
+}
+
+/* Pickup Date Modal */
+.dcf-modal.dcf-pickup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.dcf-pickup-dates {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dcf-pickup-dates h4 {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.dcf-date-options {
+    margin-bottom: 20px;
+}
+
+.dcf-date-option {
+    display: block;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dcf-date-option:hover {
+    border-color: #3498db;
+    background: #f8f9fa;
+}
+
+.dcf-date-option input[type='radio'] {
+    margin-right: 10px;
+}
+
+.dcf-date-option input[type='radio']:checked + span {
+    font-weight: 600;
+    color: #3498db;
+}
+
+.dcf-confirm-pickup {
+    width: 100%;
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dcf-confirm-pickup:hover {
+    background: #219a52;
+}
+
+/* Service Type Radio Options */
+.dcf-field[data-field-id='service_type'] .dcf-radio-option {
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.dcf-field[data-field-id='service_type'] .dcf-radio-option:hover {
+    border-color: #3498db;
+    background: #f8f9fa;
+}
+
+.dcf-field[data-field-id='service_type'] .dcf-radio-option input[type='radio']:checked + label {
+    font-weight: 600;
+    color: #3498db;
+}
+
+/* Payment Form Styles */
+.dcf-payment-section {
+    margin-top: 30px;
+}
+
+.dcf-payment-section h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dcf-payment-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dcf-payment-note::before {
+    content: '🔒';
+    font-size: 18px;
+}
+
+.dcf-card-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dcf-expiry-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.dcf-payment-form .dcf-field {
+    margin-bottom: 20px;
+}
+
+.dcf-payment-form input#dcf_card_number {
+    font-family: monospace;
+    letter-spacing: 2px;
+}
+
+.dcf-payment-form input#dcf_cvv {
+    max-width: 100px;
+}
+
+.dcf-completion-message {
+    text-align: center;
+    padding: 40px;
+}
+
+.dcf-completion-message ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.dcf-completion-message ul li {
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+/* Pickup Scheduler */
+.dcf-pickup-scheduler {
+    margin-top: 20px;
+}
+
+.dcf-pickup-scheduler .dcf-field {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .dcf-card-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .dcf-expiry-inputs {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+

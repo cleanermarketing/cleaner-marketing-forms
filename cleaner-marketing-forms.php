@@ -3,7 +3,7 @@
  * Plugin Name: Cleaner Marketing
  * Plugin URI: https://cleaner.marketing/cmforms
  * Description: Comprehensive WordPress plugin for dry cleaning and laundry service businesses that handles customer signup, contact forms, and opt-in forms with multiple POS system integrations.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Cleaner Marketing
  * Author URI: https://cleaner.marketing
  * License: GPL v2 or later
@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 define('CMF_PLUGIN_FILE', __FILE__);
 define('CMF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CMF_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('CMF_PLUGIN_VERSION', '1.0.0');
+define('CMF_PLUGIN_VERSION', '1.0.1');
 define('CMF_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
 // Autoloader for plugin classes

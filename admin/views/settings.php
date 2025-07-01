@@ -30,7 +30,8 @@ $tabs = array(
     'email' => __('Email Notifications', 'dry-cleaning-forms'),
     'advanced' => __('Advanced', 'dry-cleaning-forms'),
     'logs' => __('Integration Logs', 'dry-cleaning-forms'),
-    'migration' => __('Migration', 'dry-cleaning-forms')
+    'migration' => __('Migration', 'dry-cleaning-forms'),
+    'updates' => __('Updates', 'dry-cleaning-forms')
 );
 ?>
 
@@ -605,10 +606,13 @@ $tabs = array(
             <?php elseif ($current_tab === 'migration'): ?>
                 <!-- Migration Tool -->
                 <?php do_action('dcf_settings_migration_tab'); ?>
+            <?php elseif ($current_tab === 'updates'): ?>
+                <!-- Updates -->
+                <?php do_action('dcf_settings_updates_section'); ?>
             <?php endif; ?>
         </div>
         
-        <?php if ($current_tab !== 'logs' && $current_tab !== 'migration'): ?>
+        <?php if ($current_tab !== 'logs' && $current_tab !== 'migration' && $current_tab !== 'updates'): ?>
             <?php submit_button(); ?>
         <?php endif; ?>
     </form>
